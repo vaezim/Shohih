@@ -1,6 +1,6 @@
 # Shohih
 
-CXX chess program
+CXX chess library
 
 ## Build
 
