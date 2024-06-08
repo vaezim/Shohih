@@ -8,14 +8,14 @@
 
 #include <vector>
 #include <memory>
-#include "board.h"
 #include "shohih_defs.h"
 
 namespace Shohih {
 
 class Piece {
 public:
-    Piece(std::shared_ptr<const Board> board=nullptr) : m_board(board) {}
+    Piece() {}
+    ~Piece() = default;
 
     // Get a list of playable moves for this piece
     // (Must be implemented for each piece type)
@@ -23,10 +23,12 @@ public:
 
     // Piece type getter
     PieceType GetPieceType() const { return m_pieceType; }
+    // Piece square getter
+    Square GetPieceSquare() const { return m_square; }
 
 protected:
+    Square m_square{};
     PieceType m_pieceType{ PieceType::UNKNOWN };
-    std::shared_ptr<const Board> m_board{ nullptr };
 };
 
 } // namespace Shohih

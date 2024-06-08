@@ -8,6 +8,7 @@
 
 #include <string>
 #include <cstdint>
+#include <iostream>
 
 namespace Shohih {
 
@@ -21,19 +22,25 @@ namespace Shohih {
 #define COLOR_DEFAULT   "\x1B[0m"
 
 // Logger macros
-#define LOCATION __FILE__ << "(@" << __LINE__ << ")\n"
+#define LOCATION __FILE__ << ":" << \
+    __LINE__ << " (" << __FUNCTION__ << ")\n"
 
 #define ERROR_LOG(msg)                                          \
     do {                                                        \
         std::cout << LOCATION << COLOR_RED                      \
-        "[-] Error: " << #msg << COLOR_DEFAULT << std::endl;    \
+        "[-] Error: " << msg << COLOR_DEFAULT << std::endl;     \
     } while(0)
 
 #define WARNING_LOG(msg)                                        \
     do {                                                        \
         std::cout << LOCATION << COLOR_YELLOW                   \
-        "[-] Warning: " << #msg << COLOR_DEFAULT << std::endl;  \
+        "[*] Warning: " << msg << COLOR_DEFAULT << std::endl;   \
     } while(0)
+
+// Branch prediction
+#define LIKELY(x) __builtin_expect (x, 1)
+#define UNLIKELY(x) __builtin_expect (x, 0)
+
 
 //--------------------------------------------------
 // Type aliases
@@ -44,6 +51,7 @@ using SquareId = uint8_t;
 //--------------------------------------------------
 // constexpr
 //--------------------------------------------------
+constexpr uint8_t BOARD_SIZE{ 8 };
 constexpr SquareId INVALID_SQUARE_ID{ UINT8_MAX };
 
 
@@ -73,6 +81,10 @@ struct Square {
         std::string name = std::string("a"+x) + std::to_string(y+1);
         return name;
     }
+    bool IsValid() const
+    {
+        return std::max(x, y) < BOARD_SIZE;
+    }
     bool operator==(const Square &other) const
     {
         return (x == other.x) && (y == other.y);
@@ -101,6 +113,13 @@ enum class PieceType : uint8_t {
     ROOK,
     QUEEN,
     KING
+};
+
+// Shohih error codes
+enum ErrorCode : uint64_t {
+    SUCCESS                 = 0,
+    INVALID_PARAMETER       = 1 << 0,
+    SQUARE_NOT_EMPTY        = 1 << 1,
 };
 
 } // namespace Shohih
