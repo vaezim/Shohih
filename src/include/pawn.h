@@ -12,7 +12,7 @@ namespace Shohih {
 
 class Pawn : public Piece {
 public:
-    Pawn(std::shared_ptr<const Board> board) : 
+    Pawn(std::shared_ptr<const Board> board=nullptr) : 
         Piece(board) { m_pieceType = PieceType::PAWN; }
     virtual ~Pawn() = default;
 

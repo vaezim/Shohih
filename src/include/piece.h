@@ -15,7 +15,7 @@ namespace Shohih {
 
 class Piece {
 public:
-    Piece(std::shared_ptr<const Board> board) : m_board(board) {}
+    Piece(std::shared_ptr<const Board> board=nullptr) : m_board(board) {}
 
     // Get a list of playable moves for this piece
     // (Must be implemented for each piece type)

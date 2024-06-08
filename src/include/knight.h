@@ -12,7 +12,7 @@ namespace Shohih {
 
 class Knight : public Piece {
 public:
-    Knight(std::shared_ptr<const Board> board) : 
+    Knight(std::shared_ptr<const Board> board=nullptr) : 
         Piece(board) { m_pieceType = PieceType::KNIGHT; }
     virtual ~Knight() = default;
 

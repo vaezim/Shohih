@@ -6,5 +6,10 @@ CXX chess library
 
 ```sh
 sh build.sh
-./output/exe/shohih
+```
+
+## Run Tests
+
+```sh
+./output/exe/test
 ```

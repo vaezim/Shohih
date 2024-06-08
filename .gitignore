@@ -1,6 +1,3 @@
 # Directories
 .vscode
 output
-
-# File types
-*.o

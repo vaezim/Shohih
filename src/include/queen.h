@@ -12,7 +12,7 @@ namespace Shohih {
 
 class Queen : public Piece {
 public:
-    Queen(std::shared_ptr<const Board> board) : 
+    Queen(std::shared_ptr<const Board> board=nullptr) : 
         Piece(board) { m_pieceType = PieceType::QUEEN; }
     virtual ~Queen() = default;
 

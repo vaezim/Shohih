@@ -12,7 +12,7 @@ namespace Shohih {
 
 class Bishop : public Piece {
 public:
-    Bishop(std::shared_ptr<const Board> board) : 
+    Bishop(std::shared_ptr<const Board> board=nullptr) : 
         Piece(board) { m_pieceType = PieceType::BISHOP; }
     virtual ~Bishop() = default;
 

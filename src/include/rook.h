@@ -12,7 +12,7 @@ namespace Shohih {
 
 class Rook : public Piece {
 public:
-    Rook(std::shared_ptr<const Board> board) : 
+    Rook(std::shared_ptr<const Board> board=nullptr) : 
         Piece(board) { m_pieceType = PieceType::ROOK; }
     virtual ~Rook() = default;
 

@@ -3,8 +3,8 @@
  * @brief   Shohih definitions and constexpr variables
  **************************************************/
 
-#ifndef DEFS_H
-#define DEFS_H
+#ifndef SHOHIH_DEFS_H
+#define SHOHIH_DEFS_H
 
 #include <string>
 #include <cstdint>
@@ -54,24 +54,28 @@ struct Square {
     uint8_t x{}; // 0 - 7
     uint8_t y{}; // 0 - 7
 
-    // y __ __ __ __ __ __ __ __
-    // 0|_1|_9|17|25|33|41|49|57|
-    // 1|_2|__|__|__|__|__|__|__|
-    // 2|_3|__|__|__|__|__|__|__|
-    // 3|_4|__|__|__|__|__|__|__|
-    // 4|_5|__|__|__|__|__|__|__|
-    // 5|_6|__|__|__|__|__|__|__|
-    // 6|_7|__|__|__|__|__|__|__|
-    // 7|_8|__|__|__|__|__|__|64|
-    // x 0  1  2  3  4  5  6  7
+    // (y) __ __ __ __ __ __ __ __
+    //  0 |_8|_9|17|25|33|41|49|57|
+    //  1 |_7|__|__|__|__|__|__|__|
+    //  2 |_6|__|__|__|__|__|__|__|
+    //  3 |_5|__|__|__|__|__|__|__|
+    //  4 |_4|__|__|__|__|__|__|__|
+    //  5 |_3|__|__|__|__|__|__|__|
+    //  6 |_2|__|__|__|__|__|__|__|
+    //  7 |_1|__|__|__|__|__|__|64|
+    // (x)  0  1  2  3  4  5  6  7
     SquareId GetSquareId() const
     {
         return x*8 + y + 1;
     }
     std::string GetSquareName() const
     {
-        std::string name = std::string("a"+x) + std::to_string(y);
+        std::string name = std::string("a"+x) + std::to_string(y+1);
         return name;
+    }
+    bool operator==(const Square &other) const
+    {
+        return (x == other.x) && (y == other.y);
     }
 };
 
@@ -79,6 +83,10 @@ struct Square {
 struct Move {
     Square src{};
     Square dst{};
+    bool operator==(const Move &other) const
+    {
+        return (src == other.src) && (dst == other.dst);
+    }
 };
 
 
@@ -97,4 +105,4 @@ enum class PieceType : uint8_t {
 
 } // namespace Shohih
 
-#endif // DEFS_H
+#endif // SHOHIH_DEFS_H

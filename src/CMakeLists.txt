@@ -3,8 +3,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 
 add_subdirectory(piece)
 
-# Add include directories
-target_include_directories(
+target_link_libraries(
     ${PROJECT_NAME}
-    PUBLIC ${CMAKE_SOURCE_DIR}/src/include
+    piece
 )
