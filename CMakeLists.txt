@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(shohih)
 
+# Shohih lib & executable
+set(SHOHIH_LIB shohih)
+set(SHOHIH_MAIN shohih_main)
+
 # Executables at ./output/exe
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output/exe)
 

@@ -9,6 +9,7 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
+#include <unordered_map>
 
 namespace Shohih {
 
@@ -56,6 +57,37 @@ constexpr SquareId INVALID_SQUARE_ID{ UINT8_MAX };
 
 
 //--------------------------------------------------
+// Enums
+//--------------------------------------------------
+// Piece colors
+enum class PieceColor : uint8_t {
+    UNKNOWN,
+    WHITE,
+    BLACK
+};
+
+// Piece types
+enum class PieceType : uint8_t {
+    UNKNOWN = 0,
+    PAWN,
+    KNIGHT,
+    BISHOP,
+    ROOK,
+    QUEEN,
+    KING
+};
+
+// Shohih error codes
+enum ErrorCode : uint64_t {
+    SUCCESS                 = 0,
+    INVALID_SQUARE          = 1 << 0,
+    SQUARE_NOT_EMPTY        = 1 << 1,
+    INVALID_FEN             = 1 << 2,
+    INVALID_PIECE_TYPE      = 1 << 3,
+};
+
+
+//--------------------------------------------------
 // Structs
 //--------------------------------------------------
 struct Square {
@@ -63,14 +95,14 @@ struct Square {
     uint8_t y{}; // 0 - 7
 
     // (y) __ __ __ __ __ __ __ __
-    //  0 |_8|_9|17|25|33|41|49|57|
-    //  1 |_7|__|__|__|__|__|__|__|
-    //  2 |_6|__|__|__|__|__|__|__|
-    //  3 |_5|__|__|__|__|__|__|__|
-    //  4 |_4|__|__|__|__|__|__|__|
-    //  5 |_3|__|__|__|__|__|__|__|
-    //  6 |_2|__|__|__|__|__|__|__|
-    //  7 |_1|__|__|__|__|__|__|64|
+    //  7 |_8|_9|17|25|33|41|49|57|
+    //  6 |_7|__|__|__|__|__|__|__|
+    //  5 |_6|__|__|__|__|__|__|__|
+    //  4 |_5|__|__|__|__|__|__|__|
+    //  3 |_4|__|__|__|__|__|__|__|
+    //  2 |_3|__|__|__|__|__|__|__|
+    //  1 |_2|__|__|__|__|__|__|__|
+    //  0 |_1|__|__|__|__|__|__|64|
     // (x)  0  1  2  3  4  5  6  7
     SquareId GetSquareId() const
     {
@@ -101,25 +133,30 @@ struct Move {
     }
 };
 
-
-//--------------------------------------------------
-// Enums
-//--------------------------------------------------
-enum class PieceType : uint8_t {
-    UNKNOWN = 0,
-    PAWN,
-    KNIGHT,
-    BISHOP,
-    ROOK,
-    QUEEN,
-    KING
+// Piece color & type
+struct PieceColorAndType {
+    PieceType type{ PieceType::UNKNOWN };
+    PieceColor color { PieceColor::UNKNOWN };
 };
 
-// Shohih error codes
-enum ErrorCode : uint64_t {
-    SUCCESS                 = 0,
-    INVALID_PARAMETER       = 1 << 0,
-    SQUARE_NOT_EMPTY        = 1 << 1,
+
+//--------------------------------------------------
+// Maps
+//--------------------------------------------------
+// FEN notation to <PieceType, PieceColor>
+static const std::unordered_map<char, PieceColorAndType> fenMap {
+    { 'P', PieceColorAndType{ PieceType::PAWN,   PieceColor::WHITE } },
+    { 'N', PieceColorAndType{ PieceType::KNIGHT, PieceColor::WHITE } },
+    { 'B', PieceColorAndType{ PieceType::BISHOP, PieceColor::WHITE } },
+    { 'R', PieceColorAndType{ PieceType::ROOK,   PieceColor::WHITE } },
+    { 'Q', PieceColorAndType{ PieceType::QUEEN,  PieceColor::WHITE } },
+    { 'K', PieceColorAndType{ PieceType::KING,   PieceColor::WHITE } },
+    { 'p', PieceColorAndType{ PieceType::PAWN,   PieceColor::BLACK } },
+    { 'n', PieceColorAndType{ PieceType::KNIGHT, PieceColor::BLACK } },
+    { 'b', PieceColorAndType{ PieceType::BISHOP, PieceColor::BLACK } },
+    { 'r', PieceColorAndType{ PieceType::ROOK,   PieceColor::BLACK } },
+    { 'q', PieceColorAndType{ PieceType::QUEEN,  PieceColor::BLACK } },
+    { 'k', PieceColorAndType{ PieceType::KING,   PieceColor::BLACK } },
 };
 
 } // namespace Shohih

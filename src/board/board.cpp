@@ -3,32 +3,143 @@
  * @brief   Chess board Implementation
  **************************************************/
 
+#include <vector>
 #include "board.h"
+#include "pawn.h"
+#include "knight.h"
+#include "bishop.h"
+#include "rook.h"
+#include "queen.h"
+#include "king.h"
 
 namespace Shohih {
 
 /**************************************************
  * @details
- *      - Validate @param piece and @param square
- *              @return INVALID_PARAMETER
+ *      - @param board: passed-by-reference pointer 
+ *          will be initialized by the built board
+ *      - @param fen: FEN notation of board position
+ * 
+ * Visualize FEN notation:
+ *  https://lichess.org/analysis
+ * 
+ * About:
+ *  https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
+ * 
+ **************************************************/
+ErrorCode Board::BuildBoardByFEN(
+    std::shared_ptr<Board> &board, std::string fen)
+{
+    // Split the first token by space
+    // e.g. "8/8/8/8/8/8/8/8 w - - 0 1" => "8/8/8/8/8/8/8/8"
+    size_t first_space = fen.find_first_of(' ');
+    if (UNLIKELY(first_space == std::string::npos)) {
+        ERROR_LOG("Failed to build board. Invalid FEN.");
+        return INVALID_FEN;
+    }
+    fen = fen.substr(0, first_space);
+
+    // Parse rows from fen
+    // e.g. "8/8/8/8/8/8/8/8" => { "8", "8", "8", "8", "8", "8", "8", "8" }
+    std::vector<std::string> rows{};
+    std::string row{};
+    for (const char &c : fen) {
+        if (c != '/') {
+            row += c;
+            continue;
+        }
+        rows.push_back(row);
+        row.clear();
+    }
+
+    // Check rows
+    if (UNLIKELY(rows.size() != BOARD_SIZE)) {
+        ERROR_LOG("Failed to build board. Invalid FEN.");
+        return INVALID_FEN;
+    }
+    for (const auto &_row : rows) {
+        if (UNLIKELY(_row.empty())) {
+            ERROR_LOG("Failed to build board. Invalid FEN.");
+            return INVALID_FEN;
+        }
+    }
+
+    // Set pieces on board
+    board = std::make_shared<Board>();
+    for (uint8_t y{ 0 }; y < BOARD_SIZE; y++) {
+        // First row in FEN corresponds to 8th rank
+        const auto &row = rows[BOARD_SIZE - y];
+
+        uint8_t x{ 0 };
+        for (const auto &c : row) {
+            // If a number is hit, shift x by that number
+            if (isdigit(c)) {
+                x += std::atoi(&c);
+                continue;
+            }
+            // Get piece type & color for FEN notation
+            auto fenItr = fenMap.find(c);
+            if (UNLIKELY(fenItr == fenMap.end())) {
+                ERROR_LOG("Failed to build board. Invalid FEN notation.");
+                return INVALID_FEN;
+            }
+            // Set piece on square
+            auto error = board->SetPieceOnSquare(
+                fenItr->second.type, fenItr->second.color, Square{ x, y });
+            if (UNLIKELY(error != SUCCESS)) {
+                return INVALID_FEN;
+            }
+        }
+    }
+    return SUCCESS;
+}
+
+/**************************************************
+ * @details
  *      - Check @param square is empty
  *              @return SQUARE_NOT_EMPTY
  *      - Save piece ptr in m_pieces
  *              @return SUCCESS
  **************************************************/
 ErrorCode Board::SetPieceOnSquare(
-    std::shared_ptr<Piece> piece, Square square)
+    PieceType type, PieceColor color, Square square)
 {
     // Validate input parameters
-    if (UNLIKELY(piece == nullptr || !square.IsValid())) {
+    if (UNLIKELY(!square.IsValid())) {
         ERROR_LOG("Failed to set piece on board: Invalid parameters.");
-        return INVALID_PARAMETER;
+        return INVALID_SQUARE;
     }
 
     // Check if square is empty
     if (m_pieces[square.x][square.y] != nullptr) {
         ERROR_LOG("Failed to set piece on board: Square is not empty.");
         return SQUARE_NOT_EMPTY;
+    }
+
+    // Build piece
+    std::shared_ptr<Piece> piece;
+    switch (type) {
+    case PieceType::PAWN:
+        piece = std::make_shared<Pawn>(shared_from_this(), color);
+        break;
+    case PieceType::KNIGHT:
+        piece = std::make_shared<Knight>(shared_from_this(), color);
+        break;
+    case PieceType::BISHOP:
+        piece = std::make_shared<Bishop>(shared_from_this(), color);
+        break;
+    case PieceType::ROOK:
+        piece = std::make_shared<Rook>(shared_from_this(), color);
+        break;
+    case PieceType::QUEEN:
+        piece = std::make_shared<Queen>(shared_from_this(), color);
+        break;
+    case PieceType::KING:
+        piece = std::make_shared<King>(shared_from_this(), color);
+        break;
+    default:
+        ERROR_LOG("Failed to set piece on board: Invalid piece type.");
+        return INVALID_PIECE_TYPE;
     }
 
     m_pieces[square.x][square.y] = piece;

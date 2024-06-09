@@ -13,8 +13,8 @@ namespace Shohih {
 
 class Bishop : public Piece {
 public:
-    Bishop(std::shared_ptr<const Board> board=nullptr) : 
-        m_board(board) { m_pieceType = PieceType::BISHOP; }
+    Bishop(std::shared_ptr<const Board> board=nullptr, PieceColor color=PieceColor::UNKNOWN) : 
+        Piece(color), m_board(board) { m_pieceType = PieceType::BISHOP; }
     virtual ~Bishop() = default;
 
     std::vector<Move> GetAvailableMoves() const override;

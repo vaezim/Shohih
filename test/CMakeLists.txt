@@ -22,6 +22,5 @@ add_executable(${TEST_TARGET} main.cpp ${TEST_SRC})
 target_link_libraries(
     ${TEST_TARGET}
     gtest
-    piece
-    board
+    shohih
 )

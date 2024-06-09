@@ -1,11 +1,17 @@
-# Executable path: ../output/exe/shohih
-add_executable(${PROJECT_NAME} main.cpp)
+file(
+    GLOB shohih_SRC
+    "./board/*.cpp"
+    "./piece/*.cpp"
+)
 
-add_subdirectory(piece)
-add_subdirectory(board)
+# Shohih static library (../output/lib/libshohih.a)
+add_library(${SHOHIH_LIB} ${shohih_SRC})
+
+# Executable path: ../output/exe/shohih
+set(SHOHIH_MAIN shohih_main)
+add_executable(${SHOHIH_MAIN} main.cpp)
 
 target_link_libraries(
-    ${PROJECT_NAME}
-    piece
-    board
+    ${SHOHIH_MAIN}
+    ${SHOHIH_LIB}
 )

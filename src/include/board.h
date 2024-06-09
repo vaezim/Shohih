@@ -12,14 +12,24 @@
 
 namespace Shohih {
 
-class Board {
+class Board : public std::enable_shared_from_this<Board> {
 public:
     Board() {}
     ~Board() = default;
 
+    //--------------------------------------------------
+    // Board static APIs
+    //--------------------------------------------------
+    // Build board by FEN notation (static API)
+    static ErrorCode BuildBoardByFEN(
+        std::shared_ptr<Board> &board, std::string fen);
+
+    //--------------------------------------------------
+    // Piece Getter/Setter
+    //--------------------------------------------------
     // Piece setter
     ErrorCode SetPieceOnSquare(
-        std::shared_ptr<Piece> piece, Square suquare);
+        PieceType type, PieceColor color, Square square);
     // Piece getter
     std::shared_ptr<Piece> GetPieceBySquare(Square square);
 

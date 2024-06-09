@@ -13,8 +13,8 @@ namespace Shohih {
 
 class Rook : public Piece {
 public:
-    Rook(std::shared_ptr<const Board> board=nullptr) : 
-        m_board(board) { m_pieceType = PieceType::ROOK; }
+    Rook(std::shared_ptr<const Board> board=nullptr, PieceColor color=PieceColor::UNKNOWN) : 
+        Piece(color), m_board(board) { m_pieceType = PieceType::ROOK; }
     virtual ~Rook() = default;
 
     std::vector<Move> GetAvailableMoves() const override;

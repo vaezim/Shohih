@@ -14,20 +14,24 @@ namespace Shohih {
 
 class Piece {
 public:
-    Piece() {}
+    Piece(PieceColor color=PieceColor::UNKNOWN) : m_color(color) {}
     ~Piece() = default;
 
     // Get a list of playable moves for this piece
     // (Must be implemented for each piece type)
     virtual std::vector<Move> GetAvailableMoves() const = 0;
 
-    // Piece type getter
-    PieceType GetPieceType() const { return m_pieceType; }
     // Piece square getter
     Square GetPieceSquare() const { return m_square; }
+    // Piece color getter
+    PieceColor GetPieceColor() const { return m_color; }
+    // Piece type getter
+    PieceType GetPieceType() const { return m_pieceType; }
+
 
 protected:
     Square m_square{};
+    PieceColor m_color{ PieceColor::UNKNOWN };
     PieceType m_pieceType{ PieceType::UNKNOWN };
 };
 

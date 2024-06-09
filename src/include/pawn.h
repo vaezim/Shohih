@@ -13,8 +13,8 @@ namespace Shohih {
 
 class Pawn : public Piece {
 public:
-    Pawn(std::shared_ptr<const Board> board=nullptr) : 
-        m_board(board) { m_pieceType = PieceType::PAWN; }
+    Pawn(std::shared_ptr<const Board> board=nullptr, PieceColor color=PieceColor::UNKNOWN) : 
+        Piece(color), m_board(board) { m_pieceType = PieceType::PAWN; }
     virtual ~Pawn() = default;
 
     std::vector<Move> GetAvailableMoves() const override;

@@ -13,3 +13,13 @@ TEST(TestPawn, PieceType)
     Pawn pawn{};
     EXPECT_EQ(pawn.GetPieceType(), PieceType::PAWN);
 }
+
+/**************************************************
+ * To view graphical board, paste board FEN to 
+ * https://lichess.org/analysis
+ **************************************************/
+TEST(TestPawn, AvailableMoves)
+{
+    // FEN: 8/8/8/8/8/8/4P3/8
+
+}
