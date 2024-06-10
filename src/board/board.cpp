@@ -51,6 +51,9 @@ ErrorCode Board::BuildBoardByFEN(
         rows.push_back(row);
         row.clear();
     }
+    if (LIKELY(!row.empty())) {
+        rows.push_back(row);
+    }
 
     // Check rows
     if (UNLIKELY(rows.size() != BOARD_SIZE)) {
@@ -68,10 +71,10 @@ ErrorCode Board::BuildBoardByFEN(
     board = std::make_shared<Board>();
     for (uint8_t y{ 0 }; y < BOARD_SIZE; y++) {
         // First row in FEN corresponds to 8th rank
-        const auto &row = rows[BOARD_SIZE - y];
+        const auto &_row = rows[BOARD_SIZE - 1 - y];
 
         uint8_t x{ 0 };
-        for (const auto &c : row) {
+        for (const auto &c : _row) {
             // If a number is hit, shift x by that number
             if (isdigit(c)) {
                 x += std::atoi(&c);
@@ -120,22 +123,22 @@ ErrorCode Board::SetPieceOnSquare(
     std::shared_ptr<Piece> piece;
     switch (type) {
     case PieceType::PAWN:
-        piece = std::make_shared<Pawn>(shared_from_this(), color);
+        piece = std::make_shared<Pawn>(square, color, shared_from_this());
         break;
     case PieceType::KNIGHT:
-        piece = std::make_shared<Knight>(shared_from_this(), color);
+        piece = std::make_shared<Knight>(square, color, shared_from_this());
         break;
     case PieceType::BISHOP:
-        piece = std::make_shared<Bishop>(shared_from_this(), color);
+        piece = std::make_shared<Bishop>(square, color, shared_from_this());
         break;
     case PieceType::ROOK:
-        piece = std::make_shared<Rook>(shared_from_this(), color);
+        piece = std::make_shared<Rook>(square, color, shared_from_this());
         break;
     case PieceType::QUEEN:
-        piece = std::make_shared<Queen>(shared_from_this(), color);
+        piece = std::make_shared<Queen>(square, color, shared_from_this());
         break;
     case PieceType::KING:
-        piece = std::make_shared<King>(shared_from_this(), color);
+        piece = std::make_shared<King>(square, color, shared_from_this());
         break;
     default:
         ERROR_LOG("Failed to set piece on board: Invalid piece type.");

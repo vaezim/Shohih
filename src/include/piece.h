@@ -14,11 +14,14 @@ namespace Shohih {
 
 class Piece {
 public:
-    Piece(PieceColor color=PieceColor::UNKNOWN) : m_color(color) {}
-    ~Piece() = default;
+    Piece(
+        Square square=Square{},
+        PieceColor color=PieceColor::UNKNOWN) : 
+        m_square(square), m_color(color) {}
+    virtual ~Piece() = default;
 
     // Get a list of playable moves for this piece
-    // (Must be implemented for each piece type)
+    // (Must be implemented for each piece type!)
     virtual std::vector<Move> GetAvailableMoves() const = 0;
 
     // Piece square getter
@@ -26,13 +29,16 @@ public:
     // Piece color getter
     PieceColor GetPieceColor() const { return m_color; }
     // Piece type getter
-    PieceType GetPieceType() const { return m_pieceType; }
-
+    PieceType GetPieceType() const { return m_type; }
 
 protected:
+    // Only Board can change the square of a piece
+    friend class Board;
+    void SetPieceOnSquare(Square square) { m_square = square; }
+
     Square m_square{};
+    PieceType m_type{ PieceType::UNKNOWN };
     PieceColor m_color{ PieceColor::UNKNOWN };
-    PieceType m_pieceType{ PieceType::UNKNOWN };
 };
 
 } // namespace Shohih

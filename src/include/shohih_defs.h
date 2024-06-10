@@ -95,14 +95,14 @@ struct Square {
     uint8_t y{}; // 0 - 7
 
     // (y) __ __ __ __ __ __ __ __
-    //  7 |_8|_9|17|25|33|41|49|57|
+    //  7 |_8|16|24|32|40|48|56|64|
     //  6 |_7|__|__|__|__|__|__|__|
     //  5 |_6|__|__|__|__|__|__|__|
     //  4 |_5|__|__|__|__|__|__|__|
     //  3 |_4|__|__|__|__|__|__|__|
     //  2 |_3|__|__|__|__|__|__|__|
     //  1 |_2|__|__|__|__|__|__|__|
-    //  0 |_1|__|__|__|__|__|__|64|
+    //  0 |_1|__|__|__|__|__|__|57|
     // (x)  0  1  2  3  4  5  6  7
     SquareId GetSquareId() const
     {
@@ -110,8 +110,8 @@ struct Square {
     }
     std::string GetSquareName() const
     {
-        std::string name = std::string("a"+x) + std::to_string(y+1);
-        return name;
+        std::string name { static_cast<char>('a' + x) };
+        return name + std::to_string(y+1);
     }
     bool IsValid() const
     {
@@ -120,6 +120,21 @@ struct Square {
     bool operator==(const Square &other) const
     {
         return (x == other.x) && (y == other.y);
+    }
+    static Square GetSquareByName(const std::string &name)
+    {
+        if (UNLIKELY(name.length() != 2)) {
+            WARNING_LOG("Invalid square name.");
+            return Square{};
+        }
+        if (UNLIKELY(!isalpha(name[0]) || !isdigit(name[1]))) {
+            WARNING_LOG("Invalid square name.");
+            return Square{};
+        }
+        Square sq{};
+        sq.x = static_cast<uint8_t>(name[0] - 'a');
+        sq.y = static_cast<uint8_t>(std::atoi(&name[1]) - 1);
+        return sq;
     }
 };
 

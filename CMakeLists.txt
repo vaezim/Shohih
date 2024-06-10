@@ -15,6 +15,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output/lib)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# GCC flags
+set(CMAKE_CXX_FLAGS 
+    "-Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -Wunused -pedantic"
+)
+
 # Include directories
 include_directories(
     PUBLIC ${CMAKE_SOURCE_DIR}/src/include

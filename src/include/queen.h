@@ -13,8 +13,11 @@ namespace Shohih {
 
 class Queen : public Piece {
 public:
-    Queen(std::shared_ptr<const Board> board=nullptr, PieceColor color=PieceColor::UNKNOWN) : 
-        Piece(color), m_board(board) { m_pieceType = PieceType::QUEEN; }
+    Queen(
+        Square square=Square{},
+        PieceColor color=PieceColor::UNKNOWN,
+        std::shared_ptr<const Board> board=nullptr) : 
+        Piece(square, color), m_board(board) { m_type = PieceType::QUEEN; }
     virtual ~Queen() = default;
 
     std::vector<Move> GetAvailableMoves() const override;
