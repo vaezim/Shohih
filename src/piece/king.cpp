@@ -7,9 +7,9 @@
 
 namespace Shohih {
 
-std::vector<Move> King::GetAvailableMoves() const
+std::vector<Square> King::GetAvailableMoves() const
 {
-    return std::vector<Move>{};
+    return std::vector<Square>{};
 }
 
 } // namespace Shohih

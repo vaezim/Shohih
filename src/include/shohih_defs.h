@@ -133,23 +133,13 @@ struct Square {
         }
         Square sq{};
         sq.x = static_cast<uint8_t>(name[0] - 'a');
-        sq.y = static_cast<uint8_t>(std::atoi(&name[1]) - 1);
+        sq.y = static_cast<uint8_t>(name[1] - '1');
         return sq;
     }
 };
 
-// Move from <src> Square to <dst> Square
-struct Move {
-    Square src{};
-    Square dst{};
-    bool operator==(const Move &other) const
-    {
-        return (src == other.src) && (dst == other.dst);
-    }
-};
-
 // Piece color & type
-struct PieceColorAndType {
+struct PieceTypeAndColor {
     PieceType type{ PieceType::UNKNOWN };
     PieceColor color { PieceColor::UNKNOWN };
 };
@@ -159,19 +149,19 @@ struct PieceColorAndType {
 // Maps
 //--------------------------------------------------
 // FEN notation to <PieceType, PieceColor>
-static const std::unordered_map<char, PieceColorAndType> fenMap {
-    { 'P', PieceColorAndType{ PieceType::PAWN,   PieceColor::WHITE } },
-    { 'N', PieceColorAndType{ PieceType::KNIGHT, PieceColor::WHITE } },
-    { 'B', PieceColorAndType{ PieceType::BISHOP, PieceColor::WHITE } },
-    { 'R', PieceColorAndType{ PieceType::ROOK,   PieceColor::WHITE } },
-    { 'Q', PieceColorAndType{ PieceType::QUEEN,  PieceColor::WHITE } },
-    { 'K', PieceColorAndType{ PieceType::KING,   PieceColor::WHITE } },
-    { 'p', PieceColorAndType{ PieceType::PAWN,   PieceColor::BLACK } },
-    { 'n', PieceColorAndType{ PieceType::KNIGHT, PieceColor::BLACK } },
-    { 'b', PieceColorAndType{ PieceType::BISHOP, PieceColor::BLACK } },
-    { 'r', PieceColorAndType{ PieceType::ROOK,   PieceColor::BLACK } },
-    { 'q', PieceColorAndType{ PieceType::QUEEN,  PieceColor::BLACK } },
-    { 'k', PieceColorAndType{ PieceType::KING,   PieceColor::BLACK } },
+static const std::unordered_map<char, PieceTypeAndColor> fenMap {
+    { 'P', PieceTypeAndColor{ PieceType::PAWN,   PieceColor::WHITE } },
+    { 'N', PieceTypeAndColor{ PieceType::KNIGHT, PieceColor::WHITE } },
+    { 'B', PieceTypeAndColor{ PieceType::BISHOP, PieceColor::WHITE } },
+    { 'R', PieceTypeAndColor{ PieceType::ROOK,   PieceColor::WHITE } },
+    { 'Q', PieceTypeAndColor{ PieceType::QUEEN,  PieceColor::WHITE } },
+    { 'K', PieceTypeAndColor{ PieceType::KING,   PieceColor::WHITE } },
+    { 'p', PieceTypeAndColor{ PieceType::PAWN,   PieceColor::BLACK } },
+    { 'n', PieceTypeAndColor{ PieceType::KNIGHT, PieceColor::BLACK } },
+    { 'b', PieceTypeAndColor{ PieceType::BISHOP, PieceColor::BLACK } },
+    { 'r', PieceTypeAndColor{ PieceType::ROOK,   PieceColor::BLACK } },
+    { 'q', PieceTypeAndColor{ PieceType::QUEEN,  PieceColor::BLACK } },
+    { 'k', PieceTypeAndColor{ PieceType::KING,   PieceColor::BLACK } },
 };
 
 } // namespace Shohih

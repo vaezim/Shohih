@@ -92,6 +92,8 @@ ErrorCode Board::BuildBoardByFEN(
             if (UNLIKELY(error != SUCCESS)) {
                 return INVALID_FEN;
             }
+            // Move 1 square to the right
+            x++;
         }
     }
     return SUCCESS;
@@ -115,7 +117,8 @@ ErrorCode Board::SetPieceOnSquare(
 
     // Check if square is empty
     if (m_pieces[square.x][square.y] != nullptr) {
-        ERROR_LOG("Failed to set piece on board: Square is not empty.");
+        ERROR_LOG("Failed to set piece on board: Square "
+            << square.GetSquareName() << " is not empty.");
         return SQUARE_NOT_EMPTY;
     }
 
@@ -155,13 +158,25 @@ ErrorCode Board::SetPieceOnSquare(
  *              @return nullptr
  *      - Return piece at @param square
  **************************************************/
-std::shared_ptr<Piece> Board::GetPieceBySquare(Square square)
+std::shared_ptr<Piece> Board::GetPieceBySquare(Square square) const
 {
     if (UNLIKELY(!square.IsValid())) {
-        ERROR_LOG("Failed to get piece: Invalid parameters.");
+        ERROR_LOG("Failed to get piece: Invalid square.");
         return nullptr;
     }
     return m_pieces[square.x][square.y];
+}
+
+bool Board::IsWhitePieceOnSquare(Square square) const
+{
+    return !IsEmptySquare(square) &&
+        m_pieces[square.x][square.y]->GetPieceColor() == PieceColor::WHITE;
+}
+
+bool Board::IsBlackPieceOnSquare(Square square) const
+{
+    return !IsEmptySquare(square) &&
+        m_pieces[square.x][square.y]->GetPieceColor() == PieceColor::BLACK;
 }
 
 } // Shohih

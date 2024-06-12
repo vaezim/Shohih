@@ -20,7 +20,7 @@ public:
     //--------------------------------------------------
     // Board static APIs
     //--------------------------------------------------
-    // Build board by FEN notation (static API)
+    // Build board by FEN notation
     static ErrorCode BuildBoardByFEN(
         std::shared_ptr<Board> &board, std::string fen);
 
@@ -31,7 +31,15 @@ public:
     ErrorCode SetPieceOnSquare(
         PieceType type, PieceColor color, Square square);
     // Piece getter
-    std::shared_ptr<Piece> GetPieceBySquare(Square square);
+    std::shared_ptr<Piece> GetPieceBySquare(Square square) const;
+
+    //--------------------------------------------------
+    // Square info
+    //--------------------------------------------------
+    bool IsEmptySquare(Square square) const
+        { return GetPieceBySquare(square) == nullptr; }
+    bool IsWhitePieceOnSquare(Square square) const;
+    bool IsBlackPieceOnSquare(Square square) const;
 
 private:
     std::array<std::array<

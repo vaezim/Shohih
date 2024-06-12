@@ -7,9 +7,9 @@
 
 namespace Shohih {
 
-std::vector<Move> Rook::GetAvailableMoves() const
+std::vector<Square> Rook::GetAvailableMoves() const
 {
-    return std::vector<Move>{};
+    return std::vector<Square>{};
 }
 
 } // namespace Shohih

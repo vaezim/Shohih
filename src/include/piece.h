@@ -22,7 +22,7 @@ public:
 
     // Get a list of playable moves for this piece
     // (Must be implemented for each piece type!)
-    virtual std::vector<Move> GetAvailableMoves() const = 0;
+    virtual std::vector<Square> GetAvailableMoves() const = 0;
 
     // Piece square getter
     Square GetPieceSquare() const { return m_square; }

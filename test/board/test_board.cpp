@@ -59,11 +59,7 @@ TEST(TestBoard, BuildBoardByFEN)
     ASSERT_NE(board, nullptr);
 
     // Check if pieces are at correct squares
-    struct PieceAttributes {
-        PieceType type;
-        PieceColor color;
-    };
-    std::unordered_map<std::string, PieceAttributes> cases {
+    std::unordered_map<std::string, PieceTypeAndColor> cases {
         // Queen on a1
         { "a1", { PieceType::QUEEN, PieceColor::WHITE } },
         // King on b4
@@ -76,6 +72,41 @@ TEST(TestBoard, BuildBoardByFEN)
         { "g8", { PieceType::KNIGHT, PieceColor::BLACK } },
         // King on h5
         { "a1", { PieceType::KING, PieceColor::BLACK } },
+    };
+    for (const auto &_case : cases) {
+        Square sq = Square::GetSquareByName(_case.first);
+        auto piece = board->GetPieceBySquare(sq);
+        ASSERT_NE(piece, nullptr);
+        EXPECT_EQ(piece->GetPieceType(), _case.second.type);
+        EXPECT_EQ(piece->GetPieceColor(), _case.second.color);
+        EXPECT_EQ(piece->GetPieceSquare(), sq);
+    }
+}
+
+TEST(TestBoard, BuildBoardByFEN2)
+{
+    const std::string fen{ "8/p3pP2/3B1N2/8/6P1/N1b3qr/1P5P/8 w - - 0 1" };
+
+    // Build board by FEN
+    std::shared_ptr<Board> board{ nullptr };
+    auto err = Board::BuildBoardByFEN(board, fen);
+    ASSERT_EQ(err, SUCCESS);
+    ASSERT_NE(board, nullptr);
+
+    // Check if pieces are at correct squares
+    std::unordered_map<std::string, PieceTypeAndColor> cases {
+        // Pawn on b2
+        { "b2", { PieceType::PAWN, PieceColor::WHITE } },
+        // Pawn on h2
+        { "h2", { PieceType::PAWN, PieceColor::WHITE } },
+        // Pawn on a7
+        { "a7", { PieceType::PAWN, PieceColor::BLACK } },
+        // Pawn on e7
+        { "e7", { PieceType::PAWN, PieceColor::BLACK } },
+        // Pawn on f7
+        { "f7", { PieceType::PAWN, PieceColor::WHITE } },
+        // Pawn on g4
+        { "g4", { PieceType::PAWN, PieceColor::WHITE } },
     };
     for (const auto &_case : cases) {
         Square sq = Square::GetSquareByName(_case.first);
