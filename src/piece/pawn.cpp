@@ -27,9 +27,13 @@ std::vector<Square> Pawn::GetAvailableMoves() const
     // forward by 2 squares on rank 2/7
     if ((m_color == PieceColor::WHITE && m_square.y == 1) || 
         (m_color == PieceColor::BLACK && m_square.y == 6)) {
+        // Middle square must be empty
+        Square mid = m_square;
+        mid.y += (m_color == PieceColor::WHITE) ? 1 : -1;
+        // Destination square
         Square dst = m_square;
         dst.y += (m_color == PieceColor::WHITE) ? 2 : -2;
-        if (m_board->IsEmptySquare(dst)) {
+        if (m_board->IsEmptySquare(mid) && m_board->IsEmptySquare(dst)) {
             moves.emplace_back(dst);
         }
     }

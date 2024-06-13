@@ -82,7 +82,7 @@ TEST(TestPawn, AvailableMoves2)
         { "h2", { "g3" } },
         { "a7", { "a6", "a5" } },
         { "e7", { "d6", "f6", "e6", "e5" } },
-        { "f7", {  } },
+        { "f7", { "f8" } },
         { "g4", { "g5" } },
     };
 
@@ -98,6 +98,7 @@ TEST(TestPawn, AvailableMoves2)
         // Compare available moves with expected moves
         auto moves = pawn->GetAvailableMoves();
         auto &expected_moves = expected_moves_map[piece_square];
+        EXPECT_EQ(moves.size(), expected_moves.size());
         for (const auto &square : expected_moves) {
             auto moveItr = std::find(moves.begin(), moves.end(), Square::GetSquareByName(square));
             ASSERT_NE(moveItr, moves.end());
