@@ -3,6 +3,7 @@
  * @brief   Shohih definitions and constexpr variables
  **************************************************/
 
+#pragma once
 #ifndef SHOHIH_DEFS_H
 #define SHOHIH_DEFS_H
 
@@ -115,6 +116,8 @@ struct Square {
     }
     bool IsValid() const
     {
+        // Since x and y are unsigned,
+        // they are always non-negative.
         return std::max(x, y) < BOARD_SIZE;
     }
     bool operator==(const Square &other) const

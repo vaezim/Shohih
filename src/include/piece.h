@@ -3,6 +3,7 @@
  * @brief   Interface for chess pieces
  **************************************************/
 
+#pragma once
 #ifndef PIECE_H
 #define PIECE_H
 

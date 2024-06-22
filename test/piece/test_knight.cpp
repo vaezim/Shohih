@@ -4,8 +4,8 @@
  **************************************************/
 
 #include <gtest/gtest.h>
-#include <algorithm>
 #include "knight.h"
+#include "test_piece_utils.h"
 
 using namespace Shohih;
 
@@ -48,23 +48,5 @@ TEST(TestKnight, AvailableMoves)
         { "g8", { "h6", "e7" } },
     };
 
-    // Check available moves for each piece
-    for (const auto &item : pieces) {
-        // Get knight from board
-        auto piece_square = item.first;
-        auto knight = board->GetPieceBySquare(Square::GetSquareByName(piece_square));
-        ASSERT_NE(knight, nullptr);
-        EXPECT_EQ(knight->GetPieceType(), item.second.type);
-        EXPECT_EQ(knight->GetPieceColor(), item.second.color);
-
-        // Compare available moves with expected moves
-        auto moves = knight->GetAvailableMoves();
-        auto &expected_moves = expected_moves_map[piece_square];
-        EXPECT_EQ(moves.size(), expected_moves.size());
-        for (const auto &square : expected_moves) {
-            auto moveItr = std::find(moves.begin(), moves.end(), Square::GetSquareByName(square));
-            ASSERT_NE(moveItr, moves.end());
-            EXPECT_EQ(*moveItr, Square::GetSquareByName(square));
-        }
-    }
+    CheckAvailableMoves(board, pieces, expected_moves_map);
 }

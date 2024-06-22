@@ -3,6 +3,7 @@
  * @brief   Queen
  **************************************************/
 
+#pragma once
 #ifndef QUEEN_H
 #define QUEEN_H
 

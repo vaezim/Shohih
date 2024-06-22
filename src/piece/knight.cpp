@@ -16,7 +16,7 @@ std::vector<Square> Knight::GetAvailableMoves() const
 
     // There are 8 possible squares for the Knight
     uint8_t x{ m_square.x }, y{ m_square.y };
-    std::vector<Square> possibleSquares {
+    std::vector<Square> possibleMoves {
         Square{ static_cast<uint8_t>(x - 1), static_cast<uint8_t>(y - 2) },
         Square{ static_cast<uint8_t>(x - 1), static_cast<uint8_t>(y + 2) },
         Square{ static_cast<uint8_t>(x - 2), static_cast<uint8_t>(y - 1) },
@@ -30,7 +30,7 @@ std::vector<Square> Knight::GetAvailableMoves() const
     // Output
     std::vector<Square> moves{};
 
-    for (const auto &sq : possibleSquares) {
+    for (const auto &sq : possibleMoves) {
         // Ignore invalid squares
         if (!sq.IsValid()) { continue; }
         // If the square is empty or not occupied

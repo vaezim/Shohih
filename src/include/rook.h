@@ -3,6 +3,7 @@
  * @brief   Rook
  **************************************************/
 
+#pragma once
 #ifndef ROOK_H
 #define ROOK_H
 

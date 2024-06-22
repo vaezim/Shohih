@@ -4,8 +4,8 @@
  **************************************************/
 
 #include <gtest/gtest.h>
-#include <algorithm>
 #include "pawn.h"
+#include "test_piece_utils.h"
 
 using namespace Shohih;
 
@@ -28,32 +28,6 @@ TEST(TestPawn, Attributes)
  * Visualize FEN position at https://lichess.org/analysis
  **************************************************/
 TEST(TestPawn, AvailableMoves)
-{
-    const std::string fen{ "8/8/8/8/8/8/4P3/8 w - - 0 1" };
-
-    // Build board by FEN
-    std::shared_ptr<Board> board{ nullptr };
-    auto err = Board::BuildBoardByFEN(board, fen);
-    ASSERT_EQ(err, SUCCESS);
-    ASSERT_NE(board, nullptr);
-
-    // Pawn on e2
-    auto pawn = board->GetPieceBySquare(Square::GetSquareByName("e2"));
-    ASSERT_NE(pawn, nullptr);
-    EXPECT_EQ(pawn->GetPieceColor(), PieceColor::WHITE);
-
-    // Available Moves
-    auto moves = pawn->GetAvailableMoves();
-    std::vector<std::string> expected_moves{ "e3", "e4" };
-    EXPECT_EQ(moves.size(), expected_moves.size());
-    for (const auto &square : expected_moves) {
-        auto moveItr = std::find(moves.begin(), moves.end(), Square::GetSquareByName(square));
-        ASSERT_NE(moveItr, moves.end());
-        EXPECT_EQ(*moveItr, Square::GetSquareByName(square));
-    }
-}
-
-TEST(TestPawn, AvailableMoves2)
 {
     const std::string fen{ "8/p3pP2/3B1N2/8/6P1/N1b3qr/1P5P/8 w - - 0 1" };
 
@@ -86,23 +60,5 @@ TEST(TestPawn, AvailableMoves2)
         { "g4", { "g5" } },
     };
 
-    // Check available moves for each piece
-    for (const auto &item : pieces) {
-        // Get pawn from board
-        auto piece_square = item.first;
-        auto pawn = board->GetPieceBySquare(Square::GetSquareByName(piece_square));
-        ASSERT_NE(pawn, nullptr);
-        EXPECT_EQ(pawn->GetPieceType(), item.second.type);
-        EXPECT_EQ(pawn->GetPieceColor(), item.second.color);
-
-        // Compare available moves with expected moves
-        auto moves = pawn->GetAvailableMoves();
-        auto &expected_moves = expected_moves_map[piece_square];
-        EXPECT_EQ(moves.size(), expected_moves.size());
-        for (const auto &square : expected_moves) {
-            auto moveItr = std::find(moves.begin(), moves.end(), Square::GetSquareByName(square));
-            ASSERT_NE(moveItr, moves.end());
-            EXPECT_EQ(*moveItr, Square::GetSquareByName(square));
-        }
-    }
+    CheckAvailableMoves(board, pieces, expected_moves_map);
 }

@@ -3,6 +3,7 @@
  * @brief   Pawn
  **************************************************/
 
+#pragma once
 #ifndef PAWN_H
 #define PAWN_H
 

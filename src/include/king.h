@@ -3,6 +3,7 @@
  * @brief   King
  **************************************************/
 
+#pragma once
 #ifndef KING_H
 #define KING_H
 
