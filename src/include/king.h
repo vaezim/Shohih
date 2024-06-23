@@ -23,6 +23,19 @@ public:
 
     std::vector<Square> GetAvailableMoves() const override;
 
+protected: /* For inheriting in gtest */
+    //--------------------------------------------------
+    // Check surrounding squares for King piece
+    //--------------------------------------------------
+    bool IsKingOnSurroundingSquares(Square square) const;
+
+    //--------------------------------------------------
+    // Can King move to this square. (true -> No | false -> Yes)
+    // The square should not be in the available moves
+    //  of other pieces with opposite color.
+    //--------------------------------------------------
+    bool IsSquareChecked(Square square) const;
+
 private:
     std::shared_ptr<const Board> m_board{ nullptr };
 };

@@ -21,8 +21,10 @@ public:
         m_square(square), m_color(color) {}
     virtual ~Piece() = default;
 
+    //--------------------------------------------------
     // Get a list of playable moves for this piece
     // (Must be implemented for each piece type!)
+    //--------------------------------------------------
     virtual std::vector<Square> GetAvailableMoves() const = 0;
 
     // Piece square getter
