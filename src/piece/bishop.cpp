@@ -7,14 +7,14 @@
 
 namespace Shohih {
 
-std::vector<Square> Bishop::GetAvailableMoves() const
+MoveSet Bishop::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
         return {};
     }
 
-    std::vector<Square> possibleMoves {};
+    MoveSet possibleMoves {};
     // Add moves from the 4 diagonal directions.
     // Break loop after adding an occupied square.
     // SouthWest
@@ -23,7 +23,7 @@ std::vector<Square> Bishop::GetAvailableMoves() const
         static_cast<uint8_t>(m_square.y - 1)
     };
     while (sq.IsValid()) {
-        possibleMoves.emplace_back(sq);
+        possibleMoves.emplace(sq);
         if (!m_board->IsEmptySquare(sq)) break;
         sq.x--; sq.y--;
     }
@@ -31,7 +31,7 @@ std::vector<Square> Bishop::GetAvailableMoves() const
     sq.x = m_square.x + 1;
     sq.y = m_square.y + 1;
     while (sq.IsValid()) {
-        possibleMoves.emplace_back(sq);
+        possibleMoves.emplace(sq);
         if (!m_board->IsEmptySquare(sq)) break;
         sq.x++; sq.y++;
     }
@@ -39,7 +39,7 @@ std::vector<Square> Bishop::GetAvailableMoves() const
     sq.x = m_square.x - 1;
     sq.y = m_square.y + 1;
     while (sq.IsValid()) {
-        possibleMoves.emplace_back(sq);
+        possibleMoves.emplace(sq);
         if (!m_board->IsEmptySquare(sq)) break;
         sq.x--; sq.y++;
     }
@@ -47,13 +47,13 @@ std::vector<Square> Bishop::GetAvailableMoves() const
     sq.x = m_square.x + 1;
     sq.y = m_square.y - 1;
     while (sq.IsValid()) {
-        possibleMoves.emplace_back(sq);
+        possibleMoves.emplace(sq);
         if (!m_board->IsEmptySquare(sq)) break;
         sq.x++; sq.y--;
     }
 
     // Output
-    std::vector<Square> moves{};
+    MoveSet moves{};
 
     // Is valid move if square is empty or
     // it is occupied by a piece with opposite color
@@ -61,7 +61,7 @@ std::vector<Square> Bishop::GetAvailableMoves() const
         if ( m_board->IsEmptySquare(square) ||
             (m_color == PieceColor::WHITE && m_board->IsBlackPieceOnSquare(square)) ||
             (m_color == PieceColor::BLACK && m_board->IsWhitePieceOnSquare(square))) {
-            moves.push_back(square);
+            moves.emplace(square);
         }
     }
 

@@ -13,28 +13,24 @@ TEST(TestShohihDefs, Square)
     Square sq{};
     EXPECT_EQ(sq.x, 0);
     EXPECT_EQ(sq.y, 0);
-    EXPECT_EQ(sq.GetSquareId(), 1);
     EXPECT_EQ(sq.GetSquareName(), "a1");
     EXPECT_TRUE(sq.IsValid());
 
     Square sq2{ 4, 4 };
     EXPECT_EQ(sq2.x, 4);
     EXPECT_EQ(sq2.y, 4);
-    EXPECT_EQ(sq2.GetSquareId(), 37);
     EXPECT_EQ(sq2.GetSquareName(), "e5");
     EXPECT_TRUE(sq2.IsValid());
 
     Square sq3{ 6, 5 };
     EXPECT_EQ(sq3.x, 6);
     EXPECT_EQ(sq3.y, 5);
-    EXPECT_EQ(sq3.GetSquareId(), 54);
     EXPECT_EQ(sq3.GetSquareName(), "g6");
     EXPECT_TRUE(sq3.IsValid());
 
     Square sq4{ 7, 7 };
     EXPECT_EQ(sq4.x, 7);
     EXPECT_EQ(sq4.y, 7);
-    EXPECT_EQ(sq4.GetSquareId(), 64);
     EXPECT_EQ(sq4.GetSquareName(), "h8");
     EXPECT_TRUE(sq4.IsValid());
 

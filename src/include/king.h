@@ -21,7 +21,7 @@ public:
         Piece(square, color), m_board(board) { m_type = PieceType::KING; }
     virtual ~King() = default;
 
-    std::vector<Square> GetAvailableMoves() const override;
+    MoveSet GetAvailableMoves() const override;
 
 protected: /* For inheriting in gtest */
     //--------------------------------------------------

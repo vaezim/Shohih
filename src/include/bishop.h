@@ -21,7 +21,7 @@ public:
         Piece(square, color), m_board(board) { m_type = PieceType::BISHOP; }
     virtual ~Bishop() = default;
 
-    std::vector<Square> GetAvailableMoves() const override;
+    MoveSet GetAvailableMoves() const override;
 
 private:
     std::shared_ptr<const Board> m_board{ nullptr };

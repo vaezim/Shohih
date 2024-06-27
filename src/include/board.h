@@ -9,7 +9,6 @@
 
 #include <array>
 #include "piece.h"
-#include "shohih_defs.h"
 
 namespace Shohih {
 

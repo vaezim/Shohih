@@ -7,7 +7,6 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include <vector>
 #include <memory>
 #include "shohih_defs.h"
 
@@ -25,7 +24,7 @@ public:
     // Get a list of playable moves for this piece
     // (Must be implemented for each piece type!)
     //--------------------------------------------------
-    virtual std::vector<Square> GetAvailableMoves() const = 0;
+    virtual MoveSet GetAvailableMoves() const = 0;
 
     // Piece square getter
     Square GetPieceSquare() const { return m_square; }

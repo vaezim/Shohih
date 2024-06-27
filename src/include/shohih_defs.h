@@ -8,9 +8,11 @@
 #define SHOHIH_DEFS_H
 
 #include <string>
+#include <vector>
 #include <cstdint>
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace Shohih {
 
@@ -45,16 +47,9 @@ namespace Shohih {
 
 
 //--------------------------------------------------
-// Type aliases
-//--------------------------------------------------
-using SquareId = uint8_t;
-
-
-//--------------------------------------------------
 // constexpr
 //--------------------------------------------------
 constexpr uint8_t BOARD_SIZE{ 8 };
-constexpr SquareId INVALID_SQUARE_ID{ UINT8_MAX };
 
 
 //--------------------------------------------------
@@ -105,10 +100,6 @@ struct Square {
     //  1 |_2|__|__|__|__|__|__|__|
     //  0 |_1|__|__|__|__|__|__|57|
     // (x)  0  1  2  3  4  5  6  7
-    SquareId GetSquareId() const
-    {
-        return x*8 + y + 1;
-    }
     std::string GetSquareName() const
     {
         std::string name { static_cast<char>('a' + x) };
@@ -141,12 +132,25 @@ struct Square {
     }
 };
 
+// Hash function for Square struct
+struct SquareHash {
+    uint16_t operator() (const Square &sq) const {
+        return (static_cast<uint16_t>(sq.x) << 8) +
+                static_cast<uint16_t>(sq.y); };
+};
+
 // Piece color & type
 struct PieceTypeAndColor {
     PieceType type{ PieceType::UNKNOWN };
     PieceColor color { PieceColor::UNKNOWN };
 };
 
+
+//--------------------------------------------------
+// Type aliases
+//--------------------------------------------------
+using SquareId = uint8_t;
+using MoveSet = std::unordered_set<Square, SquareHash>;
 
 //--------------------------------------------------
 // Maps

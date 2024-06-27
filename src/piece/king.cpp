@@ -11,7 +11,7 @@ namespace Shohih {
 bool King::IsKingOnSurroundingSquares(Square square) const
 {
     uint8_t x{ square.x }, y{ square.y };
-    std::vector<Square> surroundingSquares {
+    MoveSet surroundingSquares {
         Square{ x, static_cast<uint8_t>(y - 1) },
         Square{ x, static_cast<uint8_t>(y + 1) },
         Square{ static_cast<uint8_t>(x - 1), y },
@@ -57,7 +57,7 @@ bool King::IsSquareChecked(Square target) const
     return false;
 }
 
-std::vector<Square> King::GetAvailableMoves() const
+MoveSet King::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -66,7 +66,7 @@ std::vector<Square> King::GetAvailableMoves() const
 
     // King can move 1 square in 8 directions
     uint8_t x{ m_square.x }, y{ m_square.y };
-    std::vector<Square> possibleMoves {
+    MoveSet possibleMoves {
         Square{ x, static_cast<uint8_t>(y - 1) },
         Square{ x, static_cast<uint8_t>(y + 1) },
         Square{ static_cast<uint8_t>(x - 1), y },
@@ -78,13 +78,13 @@ std::vector<Square> King::GetAvailableMoves() const
     };
 
     // Output
-    std::vector<Square> moves{};
+    MoveSet moves{};
 
     // If an empty square is not checked by opponent's pieces, king can move there
     for (const Square &sq : possibleMoves) {
         if (m_board->IsEmptySquare(sq) &&
             !IsKingOnSurroundingSquares(sq) && !IsSquareChecked(sq)) {
-            moves.emplace_back(sq);
+            moves.emplace(sq);
         }
     }
 

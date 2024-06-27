@@ -34,9 +34,8 @@ void CheckAvailableMoves(
         auto moves = piece->GetAvailableMoves();
         EXPECT_EQ(moves.size(), expected_moves.size());
         for (const auto &square : expected_moves) {
-            auto moveItr = std::find(moves.begin(), moves.end(), Square::GetSquareByName(square));
-            ASSERT_NE(moveItr, moves.end());
-            EXPECT_EQ(*moveItr, Square::GetSquareByName(square));
+            // Expect Greater Than 0
+            EXPECT_NE(moves.count(Square::GetSquareByName(square)), 0u);
         }
     }
 }

@@ -7,7 +7,7 @@
 
 namespace Shohih {
 
-std::vector<Square> Pawn::GetAvailableMoves() const
+MoveSet Pawn::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -21,7 +21,7 @@ std::vector<Square> Pawn::GetAvailableMoves() const
     }
 
     // Output
-    std::vector<Square> moves{};
+    MoveSet moves{};
 
     // White/Black pawns can move 
     // forward by 2 squares on rank 2/7
@@ -34,7 +34,7 @@ std::vector<Square> Pawn::GetAvailableMoves() const
         Square dst = m_square;
         dst.y += (m_color == PieceColor::WHITE) ? 2 : -2;
         if (m_board->IsEmptySquare(mid) && m_board->IsEmptySquare(dst)) {
-            moves.emplace_back(dst);
+            moves.emplace(dst);
         }
     }
 
@@ -42,7 +42,7 @@ std::vector<Square> Pawn::GetAvailableMoves() const
     Square dst = m_square;
     dst.y += (m_color == PieceColor::WHITE) ? 1 : -1;
     if (m_board->IsEmptySquare(dst)) {
-        moves.emplace_back(dst);
+        moves.emplace(dst);
     }
 
     // Pawns can take a piece diagonally
@@ -55,7 +55,7 @@ std::vector<Square> Pawn::GetAvailableMoves() const
             ? m_board->IsBlackPieceOnSquare(dst)
             : m_board->IsWhitePieceOnSquare(dst);
         if (canTake) {
-            moves.emplace_back(dst);
+            moves.emplace(dst);
         }
     }
 

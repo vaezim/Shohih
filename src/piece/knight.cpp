@@ -7,7 +7,7 @@
 
 namespace Shohih {
 
-std::vector<Square> Knight::GetAvailableMoves() const
+MoveSet Knight::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -16,7 +16,7 @@ std::vector<Square> Knight::GetAvailableMoves() const
 
     // There are 8 possible squares for the Knight
     uint8_t x{ m_square.x }, y{ m_square.y };
-    std::vector<Square> possibleMoves {
+    MoveSet possibleMoves {
         Square{ static_cast<uint8_t>(x - 1), static_cast<uint8_t>(y - 2) },
         Square{ static_cast<uint8_t>(x - 1), static_cast<uint8_t>(y + 2) },
         Square{ static_cast<uint8_t>(x - 2), static_cast<uint8_t>(y - 1) },
@@ -28,7 +28,7 @@ std::vector<Square> Knight::GetAvailableMoves() const
     };
 
     // Output
-    std::vector<Square> moves{};
+    MoveSet moves{};
 
     for (const auto &sq : possibleMoves) {
         // Ignore invalid squares
@@ -39,7 +39,7 @@ std::vector<Square> Knight::GetAvailableMoves() const
             ? m_board->IsBlackPieceOnSquare(sq)
             : m_board->IsWhitePieceOnSquare(sq);
         if (m_board->IsEmptySquare(sq) || canTake) {
-            moves.emplace_back(sq);
+            moves.emplace(sq);
         }
     }
 
