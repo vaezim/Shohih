@@ -124,6 +124,15 @@ ErrorCode Board::MovePiece(Square src, Square dst)
         return SQUARE_NOT_AVAILABLE;
     }
 
+    // In case of En Passant, remove the other pawn
+    if (piece->GetPieceType() == PieceType::PAWN) {
+        auto pawn = std::dynamic_pointer_cast<Pawn>(piece);
+        Square enPassant = pawn->GetEnPassantMove();
+        if (enPassant == dst) {
+            m_pieces[dst.x][src.y] = nullptr;
+        }
+    }
+
     // Move the piece to <dst> square
     m_pieces[dst.x][dst.y] = piece;
     piece->SetPieceOnSquare(dst);

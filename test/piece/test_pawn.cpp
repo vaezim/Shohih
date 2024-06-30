@@ -91,6 +91,11 @@ TEST(TestPawn, EnPassant)
         EXPECT_NE(moves.count(Square::GetSquareByName(move)), 0u);
     }
 
+    // Make an En Passant move
+    EXPECT_EQ(SUCCESS,
+        board->MovePiece(Square::GetSquareByName("d4"), Square::GetSquareByName("e3")));
+    EXPECT_TRUE(board->IsEmptySquare(Square::GetSquareByName("e4")));
+
     // Move the black pawn on f7 to f5
     ASSERT_EQ(SUCCESS,
         board->MovePiece(Square::GetSquareByName("f7"), Square::GetSquareByName("f5")));
@@ -105,4 +110,9 @@ TEST(TestPawn, EnPassant)
     for (const auto &move : std::vector<std::string>{ "f6", "g6", "h6" }) {
         EXPECT_NE(moves.count(Square::GetSquareByName(move)), 0u);
     }
+
+    // Make an En Passant move
+    EXPECT_EQ(SUCCESS,
+        board->MovePiece(Square::GetSquareByName("g5"), Square::GetSquareByName("f6")));
+    EXPECT_TRUE(board->IsEmptySquare(Square::GetSquareByName("f5")));
 }
