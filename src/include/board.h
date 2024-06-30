@@ -25,13 +25,19 @@ public:
         std::shared_ptr<Board> &board, std::string fen);
 
     //--------------------------------------------------
-    // Piece Getter/Setter
+    // Player APIs
+    //--------------------------------------------------
+    ErrorCode MovePiece(Square src, Square dst);
+
+    //--------------------------------------------------
+    // Getter/Setter
     //--------------------------------------------------
     // Piece setter
     ErrorCode SetPieceOnSquare(
         PieceType type, PieceColor color, Square square);
     // Piece getter
     std::shared_ptr<Piece> GetPieceBySquare(Square square) const;
+    std::pair<Square, Square> GetLastMove() const { return m_lastMove; }
 
     //--------------------------------------------------
     // Square info
@@ -44,6 +50,7 @@ public:
 private:
     std::array<std::array<
         std::shared_ptr<Piece>, BOARD_SIZE>, BOARD_SIZE> m_pieces{};
+    std::pair<Square, Square> m_lastMove{ NULL_SQUARE, NULL_SQUARE };
 };
 
 } // namespace Shohih

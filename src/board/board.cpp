@@ -70,7 +70,7 @@ ErrorCode Board::BuildBoardByFEN(
     // Set pieces on board
     board = std::make_shared<Board>();
     for (uint8_t y{ 0 }; y < BOARD_SIZE; y++) {
-        // First row in FEN corresponds to 8th rank
+        // First row in FEN corresponds to the 8th rank
         const auto &_row = rows[BOARD_SIZE - 1 - y];
 
         uint8_t x{ 0 };
@@ -81,8 +81,8 @@ ErrorCode Board::BuildBoardByFEN(
                 continue;
             }
             // Get piece type & color for FEN notation
-            auto fenItr = fenMap.find(c);
-            if (UNLIKELY(fenItr == fenMap.end())) {
+            auto fenItr = FenMap.find(c);
+            if (UNLIKELY(fenItr == FenMap.end())) {
                 ERROR_LOG("Failed to build board. Invalid FEN notation.");
                 return INVALID_FEN;
             }
@@ -96,6 +96,42 @@ ErrorCode Board::BuildBoardByFEN(
             x++;
         }
     }
+    return SUCCESS;
+}
+
+/**************************************************
+ * @details
+ *      - Check @param src square is not empty.
+ *              @return SQUARE_EMPTY
+ *      - Check @param dst square is in available moves
+ *              of the piece @return SQUARE_NOT_AVAILABLE
+ *      - Move piece from @param src square
+ *              to @param dst square. @return SUCCESS
+ **************************************************/
+ErrorCode Board::MovePiece(Square src, Square dst)
+{
+    // Get the piece on <src> square
+    auto piece = GetPieceBySquare(src);
+    if (UNLIKELY(piece == nullptr)) {
+        ERROR_LOG("Source square " << src.GetSquareName() << " is empty.");
+        return SQUARE_EMPTY;
+    }
+
+    // Get available moves of piece
+    auto moves = piece->GetAvailableMoves();
+    if (UNLIKELY(moves.count(dst) == 0)) {
+        ERROR_LOG("Square " << dst.GetSquareName() << " is not in the available moves.");
+        return SQUARE_NOT_AVAILABLE;
+    }
+
+    // Move the piece to <dst> square
+    m_pieces[dst.x][dst.y] = piece;
+    piece->SetPieceOnSquare(dst);
+
+    // Update last move
+    m_lastMove.first = src;
+    m_lastMove.second = dst;
+
     return SUCCESS;
 }
 

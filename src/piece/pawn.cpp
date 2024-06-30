@@ -60,10 +60,38 @@ MoveSet Pawn::GetAvailableMoves() const
     }
 
     // En Passant
-    /* TODO... */
-    // (Save last move in Board)
+    Square enPassant = GetEnPassantMove();
+    if (enPassant != NULL_SQUARE) {
+        moves.emplace(enPassant);
+    }
 
     return moves;
+}
+
+/**************************************************
+ * @details
+ *      - Check if this pawn has an en passant move.
+ *      - @return NULL_SQUARE if it doesn't.
+ **************************************************/
+Square Pawn::GetEnPassantMove() const
+{
+    auto lastMove = m_board->GetLastMove();
+    if (lastMove.second == NULL_SQUARE) {
+        return NULL_SQUARE;
+    }
+    auto lastMovedPiece = m_board->GetPieceBySquare(lastMove.second);
+    if (lastMovedPiece != nullptr && 
+        lastMovedPiece->GetPieceType() == PieceType::PAWN &&
+        lastMovedPiece->GetPieceColor() != m_color &&
+        std::abs(lastMove.first.y - lastMove.second.y) == 2 &&
+        lastMovedPiece->GetPieceSquare().y == m_square.y &&
+        std::abs(lastMovedPiece->GetPieceSquare().x - m_square.x) == 1) {
+            Square enPassant = m_square;
+            enPassant.y += (m_color == PieceColor::WHITE) ? 1 : -1;
+            enPassant.x = lastMovedPiece->GetPieceSquare().x;
+            return enPassant;
+    }
+    return NULL_SQUARE;
 }
 
 } // namespace Shohih

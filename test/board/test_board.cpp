@@ -117,3 +117,33 @@ TEST(TestBoard, BuildBoardByFEN2)
         EXPECT_EQ(piece->GetPieceSquare(), sq);
     }
 }
+
+TEST(TestBoard, MovePieces)
+{
+    // Standard starting position
+    const std::string fen{ "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" };
+
+    // Build board by FEN
+    std::shared_ptr<Board> board{ nullptr };
+    auto err = Board::BuildBoardByFEN(board, fen);
+    ASSERT_EQ(err, SUCCESS);
+    ASSERT_NE(board, nullptr);
+
+    // Test MovePiece() error codes
+    EXPECT_EQ(SQUARE_EMPTY,
+        board->MovePiece(Square::GetSquareByName("e3"), Square::GetSquareByName("e5")));
+    EXPECT_EQ(SQUARE_NOT_AVAILABLE,
+        board->MovePiece(Square::GetSquareByName("e2"), Square::GetSquareByName("f3")));
+
+    // Make a Move!
+    EXPECT_EQ(SUCCESS,
+        board->MovePiece(Square::GetSquareByName("e2"), Square::GetSquareByName("e4")));
+    EXPECT_EQ(SUCCESS,
+        board->MovePiece(Square::GetSquareByName("b8"), Square::GetSquareByName("c6")));
+    EXPECT_EQ(SUCCESS,
+        board->MovePiece(Square::GetSquareByName("e4"), Square::GetSquareByName("e5")));
+    EXPECT_EQ(SUCCESS,
+        board->MovePiece(Square::GetSquareByName("d7"), Square::GetSquareByName("d5")));
+    EXPECT_EQ(SUCCESS,
+        board->MovePiece(Square::GetSquareByName("e5"), Square::GetSquareByName("d6")));
+}

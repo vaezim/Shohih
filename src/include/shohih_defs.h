@@ -1,6 +1,6 @@
 /**************************************************
  * @date    2024-06-05
- * @brief   Shohih definitions and constexpr variables
+ * @brief   Shohih types and variables
  **************************************************/
 
 #pragma once
@@ -74,12 +74,14 @@ enum class PieceType : uint8_t {
 };
 
 // Shohih error codes
-enum ErrorCode : uint64_t {
-    SUCCESS                 = 0,
-    INVALID_SQUARE          = 1 << 0,
-    SQUARE_NOT_EMPTY        = 1 << 1,
-    INVALID_FEN             = 1 << 2,
-    INVALID_PIECE_TYPE      = 1 << 3,
+enum ErrorCode : uint8_t {
+    SUCCESS,
+    SQUARE_EMPTY,
+    SQUARE_NOT_EMPTY,
+    SQUARE_NOT_AVAILABLE,
+    INVALID_FEN,
+    INVALID_SQUARE,
+    INVALID_PIECE_TYPE,
 };
 
 
@@ -91,14 +93,14 @@ struct Square {
     uint8_t y{}; // 0 - 7
 
     // (y) __ __ __ __ __ __ __ __
-    //  7 |_8|16|24|32|40|48|56|64|
-    //  6 |_7|__|__|__|__|__|__|__|
-    //  5 |_6|__|__|__|__|__|__|__|
-    //  4 |_5|__|__|__|__|__|__|__|
-    //  3 |_4|__|__|__|__|__|__|__|
-    //  2 |_3|__|__|__|__|__|__|__|
-    //  1 |_2|__|__|__|__|__|__|__|
-    //  0 |_1|__|__|__|__|__|__|57|
+    //  7 |__|XX|__|XX|__|XX|__|XX|
+    //  6 |XX|__|XX|__|XX|__|XX|__|
+    //  5 |__|XX|__|XX|__|XX|__|XX|
+    //  4 |XX|__|XX|__|XX|__|XX|__|
+    //  3 |__|XX|__|XX|__|XX|__|XX|
+    //  2 |XX|__|XX|__|XX|__|XX|__|
+    //  1 |__|XX|__|XX|__|XX|__|XX|
+    //  0 |XX|__|XX|__|XX|__|XX|__|
     // (x)  0  1  2  3  4  5  6  7
     std::string GetSquareName() const
     {
@@ -114,6 +116,10 @@ struct Square {
     bool operator==(const Square &other) const
     {
         return (x == other.x) && (y == other.y);
+    }
+    bool operator!=(const Square &other) const
+    {
+        return !(*this == other);
     }
     static Square GetSquareByName(const std::string &name)
     {
@@ -131,6 +137,9 @@ struct Square {
         return sq;
     }
 };
+
+// Invalid Square
+constexpr Square NULL_SQUARE { UINT8_MAX, UINT8_MAX };
 
 // Hash function for Square struct
 struct SquareHash {
@@ -152,11 +161,12 @@ struct PieceTypeAndColor {
 using SquareId = uint8_t;
 using MoveSet = std::unordered_set<Square, SquareHash>;
 
+
 //--------------------------------------------------
 // Maps
 //--------------------------------------------------
 // FEN notation to <PieceType, PieceColor>
-static const std::unordered_map<char, PieceTypeAndColor> fenMap {
+static const std::unordered_map<char, PieceTypeAndColor> FenMap {
     { 'P', PieceTypeAndColor{ PieceType::PAWN,   PieceColor::WHITE } },
     { 'N', PieceTypeAndColor{ PieceType::KNIGHT, PieceColor::WHITE } },
     { 'B', PieceTypeAndColor{ PieceType::BISHOP, PieceColor::WHITE } },

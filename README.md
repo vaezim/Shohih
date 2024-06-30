@@ -16,7 +16,8 @@ sh build.sh
 
 ## TODO
 - [ ] Implement and test `GetAvailableMoves()` function for all pieces.
-  - [ ] Pawn (Including En-Passant)
+  - [X] Pawn (Including En-Passant)
+    - [ ] In case of En-Passant, remove the other pawn from the board.
   - [X] Knight
   - [X] Bishop
   - [X] Rook

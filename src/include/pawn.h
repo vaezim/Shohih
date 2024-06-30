@@ -24,6 +24,9 @@ public:
     MoveSet GetAvailableMoves() const override;
 
 private:
+    friend class Board;
+    Square GetEnPassantMove() const;
+
     std::shared_ptr<const Board> m_board{ nullptr };
 };
 
