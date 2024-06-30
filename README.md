@@ -5,7 +5,9 @@ CXX chess library
 ## Build
 
 ```sh
-sh build.sh
+git clone --recurse-submodules https://github.com/vaezim/Shohih.git
+cd Shohih
+./build.sh
 ```
 
 ## Run Tests
