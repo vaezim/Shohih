@@ -1,10 +1,7 @@
 # Add include directories
 include_directories(
-    PUBLIC ${CMAKE_SOURCE_DIR}/test/gtest/include
+    PUBLIC ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include
 )
-
-# Build gtest library
-add_subdirectory(gtest)
 
 # Add test source files
 file(

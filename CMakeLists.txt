@@ -35,3 +35,6 @@ add_subdirectory(src)
 
 # Test cases
 add_subdirectory(test)
+
+# Third-party libraries
+add_subdirectory(third_party)
