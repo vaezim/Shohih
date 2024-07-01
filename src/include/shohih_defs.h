@@ -47,9 +47,11 @@ namespace Shohih {
 
 
 //--------------------------------------------------
-// constexpr
+// constexpr & static consts
 //--------------------------------------------------
 constexpr uint8_t BOARD_SIZE{ 8 };
+static const std::string STANDARD_POSITION_FEN {
+ "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" };
 
 
 //--------------------------------------------------

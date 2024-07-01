@@ -24,3 +24,6 @@ target_link_libraries(
     ${SHOHIH_LIB}
     raylib
 )
+
+# Copy resources/ directory to CMAKE_RUNTIME_OUTPUT_DIRECTORY
+file(COPY resources DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
