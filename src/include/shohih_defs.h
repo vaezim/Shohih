@@ -82,6 +82,7 @@ enum ErrorCode : uint8_t {
     INVALID_FEN,
     INVALID_SQUARE,
     INVALID_PIECE_TYPE,
+    GAME_ALREADY_STARTED,
 };
 
 

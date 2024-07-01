@@ -26,7 +26,11 @@ cd Shohih
   - [X] Queen
   - [X] King
 - [ ] Implement board class.
-  - [ ] Support gicing checks and checkmate.
+  - [ ] Support giving checks and checkmate.
   - [ ] Add full support for FEN notation (Including player turn).
 - [ ] Implement Game manager.
 - [ ] GUI with Raylib.
+  - [ ] Board
+  - [ ] Pieces
+    - [ ] Show available moves when clicking on a piece
+    - [ ] Drag and drop

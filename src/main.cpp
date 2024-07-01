@@ -1,19 +1,28 @@
 /**************************************************
  * @date    2024-06-06
- * @brief   Shohih (CXX Chess program)
+ * @brief   Shohih (CXX Chess library)
  **************************************************/
 
-#include <iostream>
-#include "pawn.h"
-#include "board.h"
+#include "game.h"
+#include "raylib.h"
 
 using namespace Shohih;
 
 int main()
 {
-    auto board = std::make_shared<Board>();
-    Pawn pawn(Square{ 0, 1 }, PieceColor::WHITE, board);
+    Game game;
+    game.Play();
 
-    auto moves = pawn.GetAvailableMoves();
-    std::cout << moves.size() << std::endl;
+    // Raylib
+    InitWindow(800, 450, "raylib [core] example - basic window");
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+            ClearBackground(RAYWHITE);
+            // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        EndDrawing();
+    }
+
+    CloseWindow();
 }

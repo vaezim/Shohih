@@ -1,17 +1,26 @@
+# Add raylib headers
+include_directories(
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/third_party/raylib/src
+)
+
+# Add source files
 file(
-    GLOB shohih_SRC
+    GLOB SHOHIH_SRC
     "./board/*.cpp"
     "./piece/*.cpp"
+    "./game/*.cpp"
 )
 
 # Shohih static library (../output/lib/libshohih.a)
-add_library(${SHOHIH_LIB} ${shohih_SRC})
+add_library(${SHOHIH_LIB} ${SHOHIH_SRC})
 
-# Executable path: ../output/exe/shohih
-set(SHOHIH_MAIN shohih_main)
+# Main executable (../output/exe/shohih)
 add_executable(${SHOHIH_MAIN} main.cpp)
 
+# Link with Shohih library and Raylib
 target_link_libraries(
     ${SHOHIH_MAIN}
     ${SHOHIH_LIB}
+    raylib
 )
