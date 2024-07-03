@@ -25,12 +25,14 @@ cd Shohih
   - [X] Rook
   - [X] Queen
   - [X] King
+- [ ] Pawn promotion.
 - [ ] Implement board class.
   - [ ] Support giving checks and checkmate.
   - [ ] Add full support for FEN notation (Including player turn).
-- [ ] Implement Game manager.
+- [X] Implement Game manager.
 - [ ] GUI with Raylib.
-  - [ ] Board
+  - [X] Board
   - [ ] Pieces
     - [ ] Show available moves when clicking on a piece
     - [ ] Drag and drop
+    - [ ] Update piece texture position with piece objects.
