@@ -10,10 +10,18 @@ cd Shohih
 ./build.sh
 ```
 
+## Run Shohih
+
+```sh
+cd ./output/exe
+./shohih_main
+```
+
 ## Run Tests
 
 ```sh
-./output/exe/test
+cd ./output/exe
+./test
 ```
 
 ## TODO
@@ -32,7 +40,7 @@ cd Shohih
 - [X] Implement Game manager.
 - [ ] GUI with Raylib.
   - [X] Board
-  - [ ] Pieces
+  - [X] Pieces
     - [ ] Show available moves when clicking on a piece
     - [ ] Drag and drop
     - [ ] Update piece texture position with piece objects.

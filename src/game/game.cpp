@@ -4,7 +4,7 @@
  **************************************************/
 
 #include "game.h"
-#include "raylib.h"
+#include "gui_manager.h"
 
 namespace Shohih {
 
@@ -28,52 +28,22 @@ ErrorCode Game::Play()
         ERROR_LOG("Can't start a new game. Another one is already running.");
         return GAME_ALREADY_STARTED;
     }
-    g_isRunning = true;
 
     // Standard chess starting position
-    Board::BuildBoardByFEN(m_board, STANDARD_POSITION_FEN);
+    ErrorCode err = Board::BuildBoardByFEN(m_board, STANDARD_POSITION_FEN);
+    if (UNLIKELY(err != SUCCESS || m_board == nullptr)) {
+        return err;
+    }
+    g_isRunning = true;
 
-    // GUI
-    RunGUI();
+    // GUI manager
+    GuiManager guiMgr(m_board);
+    guiMgr.Run();
 
     // Play() only returns if game window
     // is closed and program is terminated.
     g_isRunning = false;
     return SUCCESS;
-}
-
-/**************************************************
- * @details
- *      Game's Graphical UI handler.
- **************************************************/
-void Game::RunGUI()
-{
-    // Window size
-    constexpr int WINDOW_WIDTH = 500;
-    constexpr int WINDOW_HEIGHT = 500;
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shohih!");
-
-    // Board texture
-    Image board_img = LoadImage("resources/board.png");
-    ImageResize(&board_img, WINDOW_WIDTH, WINDOW_HEIGHT);
-    Texture2D board_texture = LoadTextureFromImage(board_img);
-
-    // Window drawing loop. Exit loop with
-    // ESC key | Closing window | Ctrl+C
-    while (!WindowShouldClose())
-    {
-        BeginDrawing();
-            ClearBackground(BLACK);
-
-            // Board texture
-            DrawTexture(board_texture, 0, 0, WHITE);
-
-            // Pieces
-            
-        EndDrawing();
-    }
-
-    CloseWindow();
 }
 
 } // namespace Shohih

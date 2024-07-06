@@ -38,6 +38,7 @@ public:
     // Piece getter
     std::shared_ptr<Piece> GetPieceBySquare(Square square) const;
     std::pair<Square, Square> GetLastMove() const { return m_lastMove; }
+    std::unordered_set<std::shared_ptr<Piece>> GetPieceSet() const { return m_pieceSet; }
 
     //--------------------------------------------------
     // Square info
@@ -50,6 +51,7 @@ public:
 private:
     std::array<std::array<
         std::shared_ptr<Piece>, BOARD_SIZE>, BOARD_SIZE> m_pieces{};
+    std::unordered_set<std::shared_ptr<Piece>> m_pieceSet{};
     std::pair<Square, Square> m_lastMove{ NULL_SQUARE, NULL_SQUARE };
 };
 

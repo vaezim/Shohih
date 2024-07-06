@@ -22,8 +22,6 @@ public:
     ErrorCode Play();
 
 private:
-    void RunGUI();
-
     static bool g_isRunning;
     std::shared_ptr<Board> m_board{ nullptr };
 };

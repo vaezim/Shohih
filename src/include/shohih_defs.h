@@ -50,8 +50,16 @@ namespace Shohih {
 // constexpr & static consts
 //--------------------------------------------------
 constexpr uint8_t BOARD_SIZE{ 8 };
+constexpr uint8_t NUM_PIECE_TYPES{ 6 };
+constexpr uint8_t NUM_PIECE_COLORS{ 2 };
+
+// FEN for standard starting position
 static const std::string STANDARD_POSITION_FEN {
  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" };
+
+// GUI window size (multiple of 8)
+constexpr int WINDOW_WIDTH = BOARD_SIZE * 60;
+constexpr int WINDOW_HEIGHT = WINDOW_WIDTH;
 
 
 //--------------------------------------------------
@@ -59,20 +67,20 @@ static const std::string STANDARD_POSITION_FEN {
 //--------------------------------------------------
 // Piece colors
 enum class PieceColor : uint8_t {
-    UNKNOWN,
     WHITE,
-    BLACK
+    BLACK,
+    UNKNOWN
 };
 
 // Piece types
 enum class PieceType : uint8_t {
-    UNKNOWN = 0,
     PAWN,
     KNIGHT,
     BISHOP,
     ROOK,
     QUEEN,
-    KING
+    KING,
+    UNKNOWN
 };
 
 // Shohih error codes

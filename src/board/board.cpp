@@ -129,11 +129,13 @@ ErrorCode Board::MovePiece(Square src, Square dst)
         auto pawn = std::dynamic_pointer_cast<Pawn>(piece);
         Square enPassant = pawn->GetEnPassantMove();
         if (enPassant == dst) {
+            m_pieceSet.erase(m_pieces[dst.x][src.y]);
             m_pieces[dst.x][src.y] = nullptr;
         }
     }
 
     // Move the piece to <dst> square
+    m_pieceSet.erase(m_pieces[dst.x][dst.y]);
     m_pieces[dst.x][dst.y] = piece;
     piece->SetPieceOnSquare(dst);
 
@@ -194,6 +196,7 @@ ErrorCode Board::SetPieceOnSquare(
     }
 
     m_pieces[square.x][square.y] = piece;
+    m_pieceSet.emplace(piece);
     return SUCCESS;
 }
 
