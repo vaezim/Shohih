@@ -1,7 +1,6 @@
 # Add raylib headers
 include_directories(
-    PUBLIC
-    ${CMAKE_SOURCE_DIR}/third_party/raylib/src
+    ${RAYLIB_INCLUDE}
 )
 
 # Add source files

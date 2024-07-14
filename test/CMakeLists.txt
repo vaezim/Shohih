@@ -1,7 +1,7 @@
 # Add gtest headers
 include_directories(
-    PUBLIC
-    ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include
+    ${GTEST_INCLUDE}
+    ${RAYLIB_INCLUDE}
 )
 
 # Add test source files
@@ -9,6 +9,7 @@ file(
     GLOB TEST_SRC
     "./board/*.cpp"
     "./common/*.cpp"
+    "./game/*.cpp"
     "./piece/*.cpp"
 )
 
@@ -21,4 +22,5 @@ target_link_libraries(
     ${TEST_TARGET}
     ${SHOHIH_LIB}
     gtest
+    raylib
 )

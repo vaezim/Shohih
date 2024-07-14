@@ -57,9 +57,11 @@ constexpr uint8_t NUM_PIECE_COLORS{ 2 };
 static const std::string STANDARD_POSITION_FEN {
  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" };
 
-// GUI window size (multiple of 8)
-constexpr int WINDOW_WIDTH = BOARD_SIZE * 60;
+// GUI defs
+constexpr int SQUARE_SIZE = 60;
+constexpr int WINDOW_WIDTH = BOARD_SIZE * SQUARE_SIZE;
 constexpr int WINDOW_HEIGHT = WINDOW_WIDTH;
+constexpr int CIRCLE_SIZE = 8;
 
 
 //--------------------------------------------------
@@ -163,6 +165,18 @@ struct SquareHash {
 struct PieceTypeAndColor {
     PieceType type{ PieceType::UNKNOWN };
     PieceColor color { PieceColor::UNKNOWN };
+};
+
+// A point in Gui window
+// x = square.x * WINDOW_WIDTH / BOARD_SIZE
+// y = (BOARD_SIZE - square.y - 1) * WINDOW_HEIGHT / BOARD_SIZE;
+struct GuiWindowPos {
+    int x;
+    int y;
+    bool operator==(const GuiWindowPos &other) const
+    {
+        return (x == other.x) && (y == other.y);
+    }
 };
 
 

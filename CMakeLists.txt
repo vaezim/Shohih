@@ -20,6 +20,10 @@ set(CMAKE_CXX_FLAGS
     "-Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -Wunused -pedantic"
 )
 
+# Third-party libraries
+set(RAYLIB_INCLUDE ${CMAKE_SOURCE_DIR}/third_party/raylib/src)
+set(GTEST_INCLUDE ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include)
+
 # Include directories
 include_directories(
     PUBLIC ${CMAKE_SOURCE_DIR}/src/include

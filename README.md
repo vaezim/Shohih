@@ -25,22 +25,21 @@ cd ./output/exe
 ```
 
 ## TODO
-- [X] Implement and test `GetAvailableMoves()` function for all pieces.
+- [X] Implement and test `GetAvailableMoves()` function for all pieces
   - [X] Pawn (Including En-Passant)
-    - [X] In case of En-Passant, remove the other pawn from the board.
+    - [X] In case of En-Passant, remove the other pawn from the board
+    - [ ] Pawn promotion
   - [X] Knight
   - [X] Bishop
   - [X] Rook
   - [X] Queen
   - [X] King
-- [ ] Pawn promotion.
-- [ ] Implement board class.
-  - [ ] Support giving checks and checkmate.
-  - [ ] Add full support for FEN notation (Including player turn).
-- [X] Implement Game manager.
-- [ ] GUI with Raylib.
-  - [X] Board
-  - [X] Pieces
-    - [ ] Show available moves when clicking on a piece
-    - [ ] Drag and drop
-    - [ ] Update piece texture position with piece objects.
+- [ ] Implement board class
+  - [ ] Support giving checks and checkmate
+  - [ ] Add full support for FEN notation (Including player turn)
+- [X] Implement Game manager
+- [ ] GUI with Raylib
+  - [X] Board texture
+  - [X] Piece texture
+  - [ ] Show available moves when clicking on a piece
+  - [ ] Update piece texture position with piece objects

@@ -3,15 +3,17 @@
  * @brief   Graphical UI manager Implementation
  **************************************************/
 
+#include <cmath>
 #include "gui_manager.h"
 
 namespace Shohih {
 
 /**************************************************
- * Initialize paths to piece image files.
+ * Initialize paths to image files.
  **************************************************/
+const char *GuiManager::g_boardImgPath = "resources/board.png";
 const std::array<const char*, NUM_PIECE_TYPES * NUM_PIECE_COLORS>
-    GuiManager::m_pieceImgPaths {
+    GuiManager::g_pieceImgPaths {
     "resources/white_pawn.png",
     "resources/white_knight.png",
     "resources/white_bishop.png",
@@ -40,14 +42,14 @@ GuiManager::GuiManager(std::shared_ptr<Board> board) : m_board(board)
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shohih!");
 
     // Board texture
-    Image boardImg = LoadImage("resources/board.png");
+    Image boardImg = LoadImage(g_boardImgPath);
     ImageResize(&boardImg, WINDOW_WIDTH, WINDOW_HEIGHT);
     m_boardTexture = LoadTextureFromImage(boardImg);
 
     // Piece Textures
     for (uint8_t pieceIdx{ 0 }; pieceIdx < NUM_PIECE_TYPES * NUM_PIECE_COLORS; pieceIdx++) {
         // Load PNG image from disk
-        m_pieceImages[pieceIdx] = LoadImage(m_pieceImgPaths[pieceIdx]);
+        m_pieceImages[pieceIdx] = LoadImage(g_pieceImgPaths[pieceIdx]);
         // Resize it to 1/8 of window size
         ImageResize(&m_pieceImages[pieceIdx], WINDOW_WIDTH / BOARD_SIZE, WINDOW_HEIGHT / BOARD_SIZE);
         // Load piece texture from image
@@ -64,7 +66,6 @@ void GuiManager::Run()
     // Window drawing loop. Exit loop with
     // ESC key | Closing window | Ctrl+C
     while (!WindowShouldClose()) {
-
         //---------------- GPU Access ----------------
         BeginDrawing();
             ClearBackground(BLACK);
@@ -72,14 +73,15 @@ void GuiManager::Run()
             // Board texture
             DrawTexture(m_boardTexture, 0, 0, WHITE);
 
-            // Pieces
-            for (const auto &piece : m_board->GetPieceSet()) {
-                if (UNLIKELY(piece == nullptr)) { continue; }
-                Texture2D pieceTexture = GetPieceTexture(
-                    piece->GetPieceColor(), piece->GetPieceType());
-                auto pos = ConvertSquareToWindowPos(piece->GetPieceSquare());
-                DrawTexture(pieceTexture, pos.first, pos.second, WHITE);
-            }
+            // Piece textures
+            DrawPieceTextures();
+
+            // Handle mouse clicks
+            HandleMouseClicks();
+
+            // Draw circles on marked squares
+            DrawMarkedSquareCircles();
+
         EndDrawing();
         //---------------- GPU Access ----------------
     }
@@ -89,9 +91,60 @@ void GuiManager::Run()
 
 /**************************************************
  * @details
+ *      Handle mouse clicks.
+ *      - Show available moves of a piece when mouse
+ *          clicks on it.
+ *      - If one of the available moves was selected,
+ *          Move the piece to that square.
+ **************************************************/
+void GuiManager::HandleMouseClicks()
+{
+    // Return if mouse click is not detected.
+    if (!IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) { return; }
+
+    // Get mouse position
+    GuiWindowPos mousePos { GetMouseX(), GetMouseY() };
+
+    // ...
+    Square sq = ConvertWindowPosToSquare(mousePos);
+    m_markedSquares.emplace(sq);
+}
+
+/**************************************************
+ * @details
+ *      Iterate marked squares and draw
+ *          mini circles on them
+ **************************************************/
+void GuiManager::DrawMarkedSquareCircles() const
+{
+    // Dark green with 60% opacity
+    static const Color circleColor { 0, 117, 44, 150 };
+    for (const Square &sq : m_markedSquares) {
+        GuiWindowPos pos = GetSquareCentrePosition(sq);
+        DrawCircle(pos.x, pos.y, CIRCLE_SIZE, circleColor);
+    }
+}
+
+/**************************************************
+ * @details
+ *      Draw textures of pieces
+ **************************************************/
+void GuiManager::DrawPieceTextures() const
+{
+    for (const auto &piece : m_board->GetPieceSet()) {
+        if (UNLIKELY(piece == nullptr)) { continue; }
+        Texture2D pieceTexture = GetPieceTexture(
+            piece->GetPieceColor(), piece->GetPieceType());
+        auto pos = ConvertSquareToWindowPos(piece->GetPieceSquare());
+        DrawTexture(pieceTexture, pos.x, pos.y, WHITE);
+    }
+}
+
+/**************************************************
+ * @details
  *      Piece texture index = Color * 6 + type
  **************************************************/
-Texture2D GuiManager::GetPieceTexture(PieceColor color, PieceType type)
+Texture2D GuiManager::GetPieceTexture(PieceColor color, PieceType type) const
 {
     if (UNLIKELY(color == PieceColor::UNKNOWN || type == PieceType::UNKNOWN)) {
         ERROR_LOG("Failed to get piece texture. Piece type or color is unknown.");
@@ -104,13 +157,40 @@ Texture2D GuiManager::GetPieceTexture(PieceColor color, PieceType type)
 
 /**************************************************
  * @details
- *      Convert square coordinates to gui window positions
+ *      Calculate the position of the square's centre
  **************************************************/
-std::pair<int, int> GuiManager::ConvertSquareToWindowPos(Square sq) const
+GuiWindowPos GuiManager::GetSquareCentrePosition(Square sq)
+{
+    GuiWindowPos pos = ConvertSquareToWindowPos(sq);
+    pos.x += SQUARE_SIZE / 2;
+    pos.y += SQUARE_SIZE / 2;
+    return pos;
+}
+
+/**************************************************
+ * @details
+ *      Convert square coordinates to gui window positions
+ *      Returns the position of the top left corner 
+ **************************************************/
+GuiWindowPos GuiManager::ConvertSquareToWindowPos(Square sq)
 {
     int posX = sq.x * WINDOW_WIDTH / BOARD_SIZE;
     int posY = (BOARD_SIZE - sq.y - 1) * WINDOW_HEIGHT / BOARD_SIZE;
-    return { posX, posY };
+    return GuiWindowPos{ posX, posY };
+}
+
+/**************************************************
+ * @details
+ *      Convert gui window positions to square coordinates
+ **************************************************/
+Square GuiManager::ConvertWindowPosToSquare(GuiWindowPos pos)
+{
+    uint8_t x = static_cast<uint8_t>(std::floor(
+        static_cast<float>(pos.x) / (WINDOW_WIDTH / BOARD_SIZE)));
+    uint8_t y = static_cast<uint8_t>(std::floor(
+        static_cast<float>(pos.y) / (WINDOW_HEIGHT / BOARD_SIZE)));
+    y = BOARD_SIZE - y - 1;
+    return Square{ x, y };
 }
 
 } // namespace Shohih

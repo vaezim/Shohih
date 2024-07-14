@@ -20,28 +20,55 @@ public:
 
     void Run();
 
+protected:
+
+    //--------------------------------------------------
+    // Utility functions
+    //--------------------------------------------------
+    static GuiWindowPos GetSquareCentrePosition(Square sq);
+    static GuiWindowPos ConvertSquareToWindowPos(Square sq);
+    static Square ConvertWindowPosToSquare(GuiWindowPos pos);
+
 private:
+
+    //--------------------------------------------------
+    // Drawing functions
+    //--------------------------------------------------
+    void HandleMouseClicks();
+    void DrawPieceTextures() const;
+    void DrawMarkedSquareCircles() const;
+
+    //--------------------------------------------------
+    // Pointer to Shohih board handler
+    //--------------------------------------------------
     std::shared_ptr<Board> m_board{ nullptr };
 
+    //--------------------------------------------------
     // Board texture
+    //--------------------------------------------------
     Texture2D m_boardTexture;
 
-    // Array of Piece images & textures
-    // size: 12 (six piece type per piece color)
+    //--------------------------------------------------
+    // Piece images & textures
+    //--------------------------------------------------
     std::array<Image,
         NUM_PIECE_TYPES * NUM_PIECE_COLORS> m_pieceImages{};
     std::array<Texture2D,
         NUM_PIECE_TYPES * NUM_PIECE_COLORS> m_pieceTextures{};
 
-    // Path to piece image files
+    Texture2D GetPieceTexture(PieceColor color, PieceType type) const;
+
+    //--------------------------------------------------
+    // Marked squares
+    //--------------------------------------------------
+    std::unordered_set<Square, SquareHash> m_markedSquares{};
+
+    //--------------------------------------------------
+    // Image file paths
+    //--------------------------------------------------
+    static const char *g_boardImgPath;
     static const std::array<const char*,
-        NUM_PIECE_TYPES * NUM_PIECE_COLORS> m_pieceImgPaths;
-
-    // Get piece texture by piece type and color
-    Texture2D GetPieceTexture(PieceColor color, PieceType type);
-
-    // Piece square coordinates to window coordinates
-    std::pair<int, int> ConvertSquareToWindowPos(Square sq) const;
+        NUM_PIECE_TYPES * NUM_PIECE_COLORS> g_pieceImgPaths;
 };
 
 } // namespace Shohih
