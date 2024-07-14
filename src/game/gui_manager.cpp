@@ -102,12 +102,34 @@ void GuiManager::HandleMouseClicks()
     // Return if mouse click is not detected.
     if (!IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) { return; }
 
-    // Get mouse position
+    // Get mouse position and convert it to a Square
     GuiWindowPos mousePos { GetMouseX(), GetMouseY() };
-
-    // ...
     Square sq = ConvertWindowPosToSquare(mousePos);
-    m_markedSquares.emplace(sq);
+
+    // If clicked square is a marked square and last clicked
+    // square has a piece on it, move the piece to the clicked square
+    if (m_markedSquares.count(sq) != 0 &&
+        !m_board->IsEmptySquare(m_lastClickedSquare)) {
+        m_board->MovePiece(m_lastClickedSquare, sq);
+        m_markedSquares.clear();
+        m_lastClickedSquare = sq;
+        return;
+    }
+
+    // Update last clicked square
+    m_lastClickedSquare = sq;
+
+    // Clear the previously marked squares
+    m_markedSquares.clear();
+
+    // Get the piece on the clicked square
+    if (m_board->IsEmptySquare(sq)) { return; }
+    auto piece = m_board->GetPieceBySquare(sq);
+
+    // Mark available moves of <piece>
+    for (const Square &avail_sq : piece->GetAvailableMoves()) {
+        m_markedSquares.emplace(avail_sq);
+    }
 }
 
 /**************************************************
@@ -121,7 +143,7 @@ void GuiManager::DrawMarkedSquareCircles() const
     static const Color circleColor { 0, 117, 44, 150 };
     for (const Square &sq : m_markedSquares) {
         GuiWindowPos pos = GetSquareCentrePosition(sq);
-        DrawCircle(pos.x, pos.y, CIRCLE_SIZE, circleColor);
+        DrawCircle(pos.x, pos.y, CIRCLE_RADIUS, circleColor);
     }
 }
 

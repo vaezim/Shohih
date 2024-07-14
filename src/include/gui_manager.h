@@ -64,6 +64,11 @@ private:
     std::unordered_set<Square, SquareHash> m_markedSquares{};
 
     //--------------------------------------------------
+    // Last square that was clicked
+    //--------------------------------------------------
+    Square m_lastClickedSquare{ NULL_SQUARE };
+
+    //--------------------------------------------------
     // Image file paths
     //--------------------------------------------------
     static const char *g_boardImgPath;

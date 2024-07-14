@@ -134,8 +134,13 @@ ErrorCode Board::MovePiece(Square src, Square dst)
         }
     }
 
-    // Move the piece to <dst> square
+    // Remove the piece from <src> square
+    m_pieces[src.x][src.y] = nullptr;
+
+    // Remove the piece on <dst> square (can be nullptr)
     m_pieceSet.erase(m_pieces[dst.x][dst.y]);
+
+    // Move the piece to <dst> square
     m_pieces[dst.x][dst.y] = piece;
     piece->SetPieceOnSquare(dst);
 
@@ -209,7 +214,6 @@ ErrorCode Board::SetPieceOnSquare(
 std::shared_ptr<Piece> Board::GetPieceBySquare(Square square) const
 {
     if (UNLIKELY(!square.IsValid())) {
-        ERROR_LOG("Failed to get piece: Invalid square.");
         return nullptr;
     }
     return m_pieces[square.x][square.y];

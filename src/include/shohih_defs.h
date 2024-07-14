@@ -61,7 +61,7 @@ static const std::string STANDARD_POSITION_FEN {
 constexpr int SQUARE_SIZE = 60;
 constexpr int WINDOW_WIDTH = BOARD_SIZE * SQUARE_SIZE;
 constexpr int WINDOW_HEIGHT = WINDOW_WIDTH;
-constexpr int CIRCLE_SIZE = 8;
+constexpr int CIRCLE_RADIUS = 8;
 
 
 //--------------------------------------------------
