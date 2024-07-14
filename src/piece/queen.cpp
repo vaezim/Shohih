@@ -14,6 +14,11 @@ MoveSet Queen::GetAvailableMoves() const
         return {};
     }
 
+    // Check player turn
+    if (UNLIKELY(m_board->GetPlayerTurn() != m_color)) {
+        return MoveSet{};
+    }
+
     // Queen = Bishop + Rook
     MoveSet possibleMoves {};
 

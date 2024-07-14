@@ -64,6 +64,11 @@ MoveSet King::GetAvailableMoves() const
         return {};
     }
 
+    // Check player turn
+    if (UNLIKELY(m_board->GetPlayerTurn() != m_color)) {
+        return MoveSet{};
+    }
+
     // King can move 1 square in 8 directions
     uint8_t x{ m_square.x }, y{ m_square.y };
     MoveSet possibleMoves {

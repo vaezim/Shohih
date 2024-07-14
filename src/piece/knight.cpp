@@ -14,6 +14,11 @@ MoveSet Knight::GetAvailableMoves() const
         return {};
     }
 
+    // Check player turn
+    if (UNLIKELY(m_board->GetPlayerTurn() != m_color)) {
+        return MoveSet{};
+    }
+
     // There are 8 possible squares for the Knight
     uint8_t x{ m_square.x }, y{ m_square.y };
     MoveSet possibleMoves {

@@ -14,6 +14,11 @@ MoveSet Rook::GetAvailableMoves() const
         return {};
     }
 
+    // Check player turn
+    if (UNLIKELY(m_board->GetPlayerTurn() != m_color)) {
+        return MoveSet{};
+    }
+
     MoveSet possibleMoves {};
     // Add moves from the 4 Up/Down/Left/Right directions.
     // Break loop after adding an occupied square.

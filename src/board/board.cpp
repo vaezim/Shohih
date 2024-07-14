@@ -148,6 +148,10 @@ ErrorCode Board::MovePiece(Square src, Square dst)
     m_lastMove.first = src;
     m_lastMove.second = dst;
 
+    // Update player turn
+    m_playerTurn = (piece->GetPieceColor() == PieceColor::WHITE)
+        ? PieceColor::BLACK : PieceColor::WHITE;
+
     return SUCCESS;
 }
 

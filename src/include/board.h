@@ -32,10 +32,11 @@ public:
     //--------------------------------------------------
     // Getter/Setter
     //--------------------------------------------------
-    // Piece setter
+    // Setters
     ErrorCode SetPieceOnSquare(
         PieceType type, PieceColor color, Square square);
-    // Piece getter
+    // Getters
+    PieceColor GetPlayerTurn() const { return m_playerTurn; }
     std::shared_ptr<Piece> GetPieceBySquare(Square square) const;
     std::pair<Square, Square> GetLastMove() const { return m_lastMove; }
     std::unordered_set<std::shared_ptr<Piece>> GetPieceSet() const { return m_pieceSet; }
@@ -49,9 +50,17 @@ public:
     bool IsBlackPieceOnSquare(Square square) const;
 
 private:
+    // Player turn (WHITE or BLACK)
+    PieceColor m_playerTurn{ PieceColor::WHITE };
+
+    // 8x8 array of pieces representing a real board
     std::array<std::array<
         std::shared_ptr<Piece>, BOARD_SIZE>, BOARD_SIZE> m_pieces{};
+
+    // Hashset of active pieces currently on board
     std::unordered_set<std::shared_ptr<Piece>> m_pieceSet{};
+
+    // Keep track of the last move (used for En-Passant)
     std::pair<Square, Square> m_lastMove{ NULL_SQUARE, NULL_SQUARE };
 };
 

@@ -23,6 +23,11 @@ MoveSet Pawn::GetAvailableMoves() const
     // Output
     MoveSet moves{};
 
+    // Check player turn
+    if (UNLIKELY(m_board->GetPlayerTurn() != m_color)) {
+        return moves;
+    }
+
     // White/Black pawns can move 
     // forward by 2 squares on rank 2/7
     if ((m_color == PieceColor::WHITE && m_square.y == 1) || 

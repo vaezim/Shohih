@@ -35,7 +35,7 @@ cd ./output/exe
   - [X] Queen
   - [X] King
 - [ ] Implement board class
-  - [ ] Add turns (black should not play in white's turn)
+  - [X] Add turns (black should not play in white's turn)
   - [ ] Support giving checks and checkmate
   - [ ] Pieces cannot take kings.
   - [ ] Add full support for FEN notation (Including player turn)
