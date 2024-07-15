@@ -41,3 +41,27 @@ TEST(TestKing, AvailableMoves)
 
     CheckAvailableMoves(board, pieces, expected_moves_map);
 }
+
+TEST(TestKing, Castling)
+{
+    const std::string fen{ "r3k2r/8/8/1b6/6B1/8/8/R3K2R w - - 0 1" };
+
+    // Build board by FEN
+    std::shared_ptr<Board> board{ nullptr };
+    auto err = Board::BuildBoardByFEN(board, fen);
+    ASSERT_EQ(err, SUCCESS);
+    ASSERT_NE(board, nullptr);
+
+    std::unordered_map<std::string, PieceTypeAndColor> pieces {
+        // King on e1
+        { "e1", { PieceType::KING, PieceColor::WHITE } },
+        // King on e8
+        { "e8", { PieceType::KING, PieceColor::BLACK } },
+    };
+    std::unordered_map<std::string, std::vector<std::string>> expected_moves_map {
+        { "e1", { "f2", "d2", "d1", "c1" } },
+        { "e8", { "d8", "e7", "f8", "f7", "g8" } },
+    };
+
+    CheckAvailableMoves(board, pieces, expected_moves_map);
+}

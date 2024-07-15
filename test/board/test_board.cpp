@@ -9,9 +9,15 @@
 
 using namespace Shohih;
 
+class TestBoard : public Board {
+public:
+    ErrorCode SetPieceOnSquare(PieceType type, PieceColor color, Square square)
+    { return Board::SetPieceOnSquare(type, color, square); }
+};
+
 TEST(TestBoard, PieceSetterAndGetter)
 {
-    auto board = std::make_shared<Board>();
+    auto board = std::make_shared<TestBoard>();
 
     // Check all squares are empty
     for (uint8_t x{ 0 }; x < BOARD_SIZE; x++) {

@@ -30,12 +30,8 @@ public:
     ErrorCode MovePiece(Square src, Square dst);
 
     //--------------------------------------------------
-    // Getter/Setter
-    //--------------------------------------------------
-    // Setters
-    ErrorCode SetPieceOnSquare(
-        PieceType type, PieceColor color, Square square);
     // Getters
+    //--------------------------------------------------
     PieceColor GetPlayerTurn() const { return m_playerTurn; }
     std::shared_ptr<Piece> GetPieceBySquare(Square square) const;
     std::pair<Square, Square> GetLastMove() const { return m_lastMove; }
@@ -48,6 +44,12 @@ public:
         { return GetPieceBySquare(square) == nullptr; }
     bool IsWhitePieceOnSquare(Square square) const;
     bool IsBlackPieceOnSquare(Square square) const;
+
+protected:
+    //--------------------------------------------------
+    // Protected API used in setting up the board
+    //--------------------------------------------------
+    ErrorCode SetPieceOnSquare(PieceType type, PieceColor color, Square square);
 
 private:
     // Player turn (WHITE or BLACK)

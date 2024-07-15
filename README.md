@@ -39,7 +39,7 @@ cd ./output/exe
   - [ ] Support giving checks and checkmate
   - [ ] Pieces cannot take kings.
   - [ ] Add full support for FEN notation (Including player turn)
-  - [ ] Support castling
+  - [X] Support castling
 - [X] Implement Game manager
 - [ ] GUI with Raylib
   - [X] Board texture
@@ -48,4 +48,4 @@ cd ./output/exe
   - [X] Update piece texture position with piece objects
   - [ ] King square turning red if in check
   - [ ] If a piece can be taken, change square corner shapes instead of a circle
-- [ ] Update dmeo video after fixing bugs
+- [ ] Update demo video after fixing bugs

@@ -134,6 +134,16 @@ ErrorCode Board::MovePiece(Square src, Square dst)
         }
     }
 
+    // Castling
+    if (piece->GetPieceType() == PieceType::KING &&
+        std::abs(static_cast<int>(src.x) - static_cast<int>(dst.x)) == 2) {
+        Square rook_square = piece->GetPieceSquare();
+        rook_square.x = (dst.x > src.x) ? 7u : 0u;
+        Square rook_target_square = rook_square;
+        rook_target_square.x = (src.x + dst.x) / 2;
+        MovePiece(rook_square, rook_target_square);
+    }
+
     // Remove the piece from <src> square
     m_pieces[src.x][src.y] = nullptr;
 

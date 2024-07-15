@@ -26,21 +26,27 @@ public:
     //--------------------------------------------------
     virtual MoveSet GetAvailableMoves() const = 0;
 
-    // Piece square getter
-    Square GetPieceSquare() const { return m_square; }
-    // Piece color getter
-    PieceColor GetPieceColor() const { return m_color; }
-    // Piece type getter
-    PieceType GetPieceType() const { return m_type; }
+    //--------------------------------------------------
+    // Piece attribute getter
+    //--------------------------------------------------
+    inline PieceType GetPieceType() const { return m_type; }
+    inline Square GetPieceSquare() const { return m_square; }
+    inline PieceColor GetPieceColor() const { return m_color; }
+
+    inline bool HasMoved() const { return !m_squareHistory.empty(); }
 
 protected:
     // Only Board can change the square of a piece
     friend class Board;
-    void SetPieceOnSquare(Square square) { m_square = square; }
+    void SetPieceOnSquare(Square square);
 
-    Square m_square{};
+    // Piece attributes (square, type, color)
+    Square m_square{ NULL_SQUARE };
     PieceType m_type{ PieceType::UNKNOWN };
     PieceColor m_color{ PieceColor::UNKNOWN };
+
+    // History of piece's previous squares
+    std::vector<Square> m_squareHistory{};
 };
 
 } // namespace Shohih

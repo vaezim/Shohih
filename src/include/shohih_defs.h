@@ -45,6 +45,9 @@ namespace Shohih {
 #define LIKELY(x) __builtin_expect (x, 1)
 #define UNLIKELY(x) __builtin_expect (x, 0)
 
+// Test Mode
+#define TEST_MODE false
+
 
 //--------------------------------------------------
 // constexpr & static consts

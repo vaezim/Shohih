@@ -23,8 +23,8 @@ MoveSet Pawn::GetAvailableMoves() const
     // Output
     MoveSet moves{};
 
-    // Check player turn
-    if (UNLIKELY(m_board->GetPlayerTurn() != m_color)) {
+    // Check player turn (turned off in test mode)
+    if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {
         return moves;
     }
 
