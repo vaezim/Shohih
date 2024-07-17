@@ -2,6 +2,8 @@
 
 A graphical chess game with C++
 
+https://github.com/user-attachments/assets/62ad3c25-f878-4192-b87b-db71052376bc
+
 ## Quickstart
 
 ```sh
