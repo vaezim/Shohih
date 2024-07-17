@@ -2,26 +2,27 @@
 
 A graphical chess game with C++
 
-## Build
+## Quickstart
 
 ```sh
 git clone --recurse-submodules https://github.com/vaezim/Shohih.git
 cd Shohih
 ./build.sh
-```
-
-## Run Shohih
-
-```sh
 cd ./output/exe
 ./shohih_main
 ```
 
-## Run Tests
+## Build Tests
 
 ```sh
+./build.sh --test
 cd ./output/exe
 ./test
+```
+
+### Build in debug mode
+```sh
+./build.sh --debug
 ```
 
 ## TODO

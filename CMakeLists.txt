@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 project(shohih)
 
+# Flag for building tests (OFF by default)
+option(BUILD_TEST "Turn ON/OFF building test files" OFF)
+
 # Shohih lib & executable
 set(SHOHIH_LIB shohih)
 set(SHOHIH_MAIN shohih_main)
@@ -34,11 +37,14 @@ link_directories(
     PUBLIC ${CMAKE_SOURCE_DIR}/output/lib
 )
 
+# Test cases
+if(BUILD_TEST)
+    add_subdirectory(test)
+    add_compile_definitions(BUILD_TEST)
+endif(BUILD_TEST)
+
 # Source files
 add_subdirectory(src)
-
-# Test cases
-add_subdirectory(test)
 
 # Third-party libraries
 add_subdirectory(third_party)
