@@ -7,7 +7,7 @@
 
 namespace Shohih {
 
-MoveSet Pawn::GetAvailableMoves() const
+SquareSet Pawn::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -21,7 +21,7 @@ MoveSet Pawn::GetAvailableMoves() const
     }
 
     // Output
-    MoveSet moves{};
+    SquareSet moves{};
 
     // Check player turn (turned off in test mode)
     if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {

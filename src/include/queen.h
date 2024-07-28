@@ -21,7 +21,7 @@ public:
         Piece(square, color), m_board(board) { m_type = PieceType::QUEEN; }
     virtual ~Queen() = default;
 
-    MoveSet GetAvailableMoves() const override;
+    SquareSet GetAvailableMoves() const override;
 
 private:
     std::shared_ptr<const Board> m_board{ nullptr };

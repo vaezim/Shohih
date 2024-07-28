@@ -34,7 +34,7 @@ public:
     //--------------------------------------------------
     PieceColor GetPlayerTurn() const { return m_playerTurn; }
     std::shared_ptr<Piece> GetPieceBySquare(Square square) const;
-    std::pair<Square, Square> GetLastMove() const { return m_lastMove; }
+    Move GetLastMove() const { return m_lastMove; }
     std::unordered_set<std::shared_ptr<Piece>> GetPieceSet() const { return m_pieceSet; }
 
     //--------------------------------------------------
@@ -63,7 +63,7 @@ private:
     std::unordered_set<std::shared_ptr<Piece>> m_pieceSet{};
 
     // Keep track of the last move (used for En-Passant)
-    std::pair<Square, Square> m_lastMove{ NULL_SQUARE, NULL_SQUARE };
+    Move m_lastMove{ NULL_SQUARE, NULL_SQUARE };
 };
 
 } // namespace Shohih

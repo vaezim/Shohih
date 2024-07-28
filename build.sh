@@ -52,7 +52,11 @@ handle_flags "$@"
 ####################
 # CMake
 ####################
-cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBUILD_TEST=${BUILD_TEST} -S $PROJECT_ROOT_DIR -B ${PROJECT_ROOT_DIR}/output/build
+cmake                                       \
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}        \
+    -DBUILD_TEST=${BUILD_TEST}              \
+    -S $PROJECT_ROOT_DIR                    \
+    -B ${PROJECT_ROOT_DIR}/output/build
 
 
 ####################

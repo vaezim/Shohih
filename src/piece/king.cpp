@@ -11,7 +11,7 @@ namespace Shohih {
 bool King::IsKingOnSurroundingSquares(Square square) const
 {
     uint8_t x{ square.x }, y{ square.y };
-    MoveSet surroundingSquares {
+    SquareSet surroundingSquares {
         Square{ x, static_cast<uint8_t>(y - 1) },
         Square{ x, static_cast<uint8_t>(y + 1) },
         Square{ static_cast<uint8_t>(x - 1), y },
@@ -57,7 +57,7 @@ bool King::IsSquareChecked(Square target) const
     return false;
 }
 
-MoveSet King::GetAvailableMoves() const
+SquareSet King::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -66,12 +66,12 @@ MoveSet King::GetAvailableMoves() const
 
     // Check player turn (turned off in test mode)
     if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {
-        return MoveSet{};
+        return SquareSet{};
     }
 
     // King can move 1 square in 8 directions
     uint8_t x{ m_square.x }, y{ m_square.y };
-    MoveSet possibleMoves {
+    SquareSet possibleMoves {
         Square{ x, static_cast<uint8_t>(y - 1) },
         Square{ x, static_cast<uint8_t>(y + 1) },
         Square{ static_cast<uint8_t>(x - 1), y },
@@ -83,7 +83,7 @@ MoveSet King::GetAvailableMoves() const
     };
 
     // Output
-    MoveSet moves{};
+    SquareSet moves{};
 
     // If an empty square is not hit by opponent's pieces, king can move there
     for (const Square &sq : possibleMoves) {

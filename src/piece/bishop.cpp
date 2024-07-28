@@ -7,7 +7,7 @@
 
 namespace Shohih {
 
-MoveSet Bishop::GetAvailableMoves() const
+SquareSet Bishop::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -16,10 +16,10 @@ MoveSet Bishop::GetAvailableMoves() const
 
     // Check player turn (turned off in test mode)
     if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {
-        return MoveSet{};
+        return SquareSet{};
     }
 
-    MoveSet possibleMoves {};
+    SquareSet possibleMoves {};
     // Add moves from the 4 diagonal directions.
     // Break loop after adding an occupied square.
     // SouthWest
@@ -58,7 +58,7 @@ MoveSet Bishop::GetAvailableMoves() const
     }
 
     // Output
-    MoveSet moves{};
+    SquareSet moves{};
 
     // Is valid move if square is empty or
     // it is occupied by a piece with opposite color

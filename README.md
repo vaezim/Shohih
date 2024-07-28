@@ -52,3 +52,4 @@ cd ./output/exe
   - [ ] King square turning red if in check
   - [ ] If a piece can be taken, change square corner shapes instead of a circle
 - [ ] Update demo video after fixing bugs
+- [ ] Implement online mode

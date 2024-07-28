@@ -21,7 +21,7 @@ public:
         Piece(square, color), m_board(board) { m_type = PieceType::PAWN; }
     virtual ~Pawn() = default;
 
-    MoveSet GetAvailableMoves() const override;
+    SquareSet GetAvailableMoves() const override;
 
 private:
     friend class Board;

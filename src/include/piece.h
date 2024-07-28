@@ -24,7 +24,7 @@ public:
     // Get a list of playable moves for this piece
     // (Must be implemented for each piece type!)
     //--------------------------------------------------
-    virtual MoveSet GetAvailableMoves() const = 0;
+    virtual SquareSet GetAvailableMoves() const = 0;
 
     //--------------------------------------------------
     // Piece attribute getter

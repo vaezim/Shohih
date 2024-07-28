@@ -7,7 +7,7 @@
 
 namespace Shohih {
 
-MoveSet Rook::GetAvailableMoves() const
+SquareSet Rook::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -16,10 +16,10 @@ MoveSet Rook::GetAvailableMoves() const
 
     // Check player turn (turned off in test mode)
     if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {
-        return MoveSet{};
+        return SquareSet{};
     }
 
-    MoveSet possibleMoves {};
+    SquareSet possibleMoves {};
     // Add moves from the 4 Up/Down/Left/Right directions.
     // Break loop after adding an occupied square.
     // Up
@@ -56,7 +56,7 @@ MoveSet Rook::GetAvailableMoves() const
     }
 
     // Output
-    MoveSet moves{};
+    SquareSet moves{};
 
     // Is valid move if square is empty or
     // it is occupied by a piece with opposite color

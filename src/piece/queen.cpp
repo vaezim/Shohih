@@ -7,7 +7,7 @@
 
 namespace Shohih {
 
-MoveSet Queen::GetAvailableMoves() const
+SquareSet Queen::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -16,11 +16,11 @@ MoveSet Queen::GetAvailableMoves() const
 
     // Check player turn (turned off in test mode)
     if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {
-        return MoveSet{};
+        return SquareSet{};
     }
 
     // Queen = Bishop + Rook
-    MoveSet possibleMoves {};
+    SquareSet possibleMoves {};
 
     /********************************
      * Bishop Moves @ref bishop.cpp
@@ -94,7 +94,7 @@ MoveSet Queen::GetAvailableMoves() const
     }
 
     // Output
-    MoveSet moves{};
+    SquareSet moves{};
 
     // Is valid move if square is empty or
     // it is occupied by a piece with opposite color

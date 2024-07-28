@@ -7,7 +7,7 @@
 
 namespace Shohih {
 
-MoveSet Knight::GetAvailableMoves() const
+SquareSet Knight::GetAvailableMoves() const
 {
     if (UNLIKELY(m_board == nullptr)) {
         ERROR_LOG("Board is NULL.");
@@ -16,12 +16,12 @@ MoveSet Knight::GetAvailableMoves() const
 
     // Check player turn (turned off in test mode)
     if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {
-        return MoveSet{};
+        return SquareSet{};
     }
 
     // There are 8 possible squares for the Knight
     uint8_t x{ m_square.x }, y{ m_square.y };
-    MoveSet possibleMoves {
+    SquareSet possibleMoves {
         Square{ static_cast<uint8_t>(x - 1), static_cast<uint8_t>(y - 2) },
         Square{ static_cast<uint8_t>(x - 1), static_cast<uint8_t>(y + 2) },
         Square{ static_cast<uint8_t>(x - 2), static_cast<uint8_t>(y - 1) },
@@ -33,7 +33,7 @@ MoveSet Knight::GetAvailableMoves() const
     };
 
     // Output
-    MoveSet moves{};
+    SquareSet moves{};
 
     for (const auto &sq : possibleMoves) {
         // Ignore invalid squares

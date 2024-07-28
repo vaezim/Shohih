@@ -14,7 +14,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output/exe)
 # Libraries at ./output/lib
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output/lib)
 
-# GoogleTest requires at least C++14
+# GoogleTest requires >=C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -25,6 +25,7 @@ set(CMAKE_CXX_FLAGS
 
 # Third-party libraries
 set(RAYLIB_INCLUDE ${CMAKE_SOURCE_DIR}/third_party/raylib/src)
+set(HTTPLIB_INCLUDE ${CMAKE_SOURCE_DIR}/third_party/cpp-httplib)
 set(GTEST_INCLUDE ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include)
 
 # Include directories

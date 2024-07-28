@@ -38,6 +38,9 @@ const std::array<const char*, NUM_PIECE_TYPES * NUM_PIECE_COLORS>
  **************************************************/
 GuiManager::GuiManager(std::shared_ptr<Board> board) : m_board(board)
 {
+    // Set Raylib log level to warnings, errors & fatal only
+    SetTraceLogLevel(LOG_WARNING);
+
     // Initialize Raylib (must be called before other raylib functions)
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Shohih!");
 

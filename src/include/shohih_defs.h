@@ -9,6 +9,7 @@
 
 #include <string>
 #include <vector>
+#include <utility>
 #include <cstdint>
 #include <iostream>
 #include <unordered_map>
@@ -143,7 +144,7 @@ struct Square {
     static Square GetSquareByName(const std::string &name)
     {
         if (UNLIKELY(name.length() != 2)) {
-            WARNING_LOG("Invalid square name.");
+            WARNING_LOG("Invalid square name: " << name);
             return Square{};
         }
         if (UNLIKELY(!isalpha(name[0]) || !isdigit(name[1]))) {
@@ -190,7 +191,8 @@ struct GuiWindowPos {
 // Type aliases
 //--------------------------------------------------
 using SquareId = uint8_t;
-using MoveSet = std::unordered_set<Square, SquareHash>;
+using Move = std::pair<Square, Square>;
+using SquareSet = std::unordered_set<Square, SquareHash>;
 
 
 //--------------------------------------------------
