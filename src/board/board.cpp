@@ -28,8 +28,14 @@ namespace Shohih {
  * 
  **************************************************/
 ErrorCode Board::BuildBoardByFEN(
-    std::shared_ptr<Board> &board, std::string fen)
+    std::shared_ptr<Board> &board, std::string fen, GameMode mode, std::shared_ptr<Client> client)
 {
+    // Check client pointer in Online mode
+    if (UNLIKELY(mode == GameMode::ONLINE && client == nullptr)) {
+        ERROR_LOG("Client pointer cannot be nullptr in Online mode.");
+        return NULL_CLIENT_PTR;
+    }
+
     // Split the first token by space
     // e.g. "8/8/8/8/8/8/8/8 w - - 0 1" => "8/8/8/8/8/8/8/8"
     size_t first_space = fen.find_first_of(' ');
@@ -68,7 +74,7 @@ ErrorCode Board::BuildBoardByFEN(
     }
 
     // Set pieces on board
-    board = std::make_shared<Board>();
+    auto newBoard = std::make_shared<Board>(mode, client);
     for (uint8_t y{ 0 }; y < BOARD_SIZE; y++) {
         // First row in FEN corresponds to the 8th rank
         const auto &_row = rows[BOARD_SIZE - 1 - y];
@@ -87,7 +93,7 @@ ErrorCode Board::BuildBoardByFEN(
                 return INVALID_FEN;
             }
             // Set piece on square
-            auto error = board->SetPieceOnSquare(
+            auto error = newBoard->SetPieceOnSquare(
                 fenItr->second.type, fenItr->second.color, Square{ x, y });
             if (UNLIKELY(error != SUCCESS)) {
                 return INVALID_FEN;
@@ -96,7 +102,14 @@ ErrorCode Board::BuildBoardByFEN(
             x++;
         }
     }
+
+    board = newBoard;
     return SUCCESS;
+}
+
+ErrorCode Board::BuildBoardByFEN(std::shared_ptr<Board> &board, std::string fen)
+{
+    return BuildBoardByFEN(board, fen, GameMode::OFFLINE, nullptr);
 }
 
 /**************************************************
@@ -163,6 +176,11 @@ ErrorCode Board::MovePiece(Square src, Square dst)
         ? PieceColor::BLACK : PieceColor::WHITE;
 
     return SUCCESS;
+}
+
+ErrorCode Board::MovePiece(Move move)
+{
+    return MovePiece(move.first, move.second);
 }
 
 /**************************************************

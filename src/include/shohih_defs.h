@@ -42,6 +42,18 @@ namespace Shohih {
         "[*] Warning: " << msg << COLOR_DEFAULT << std::endl;   \
     } while(0)
 
+#define INFO_LOG(msg)                                           \
+    do {                                                        \
+        std::cout << COLOR_GREEN                                \
+        "[+] " << msg << COLOR_DEFAULT << std::endl;            \
+    } while(0)
+
+#define RED_INFO_LOG(msg)                                       \
+    do {                                                        \
+        std::cout << COLOR_RED                                  \
+        "[-] " << msg << COLOR_DEFAULT << std::endl;            \
+    } while(0)
+
 // Branch prediction
 #define LIKELY(x) __builtin_expect (x, 1)
 #define UNLIKELY(x) __builtin_expect (x, 0)
@@ -69,6 +81,9 @@ constexpr int SQUARE_SIZE = 60;
 constexpr int WINDOW_WIDTH = BOARD_SIZE * SQUARE_SIZE;
 constexpr int WINDOW_HEIGHT = WINDOW_WIDTH;
 constexpr int CIRCLE_RADIUS = 8;
+
+// Thread sleep time
+constexpr int threadSleepTime = 200; // milliseconds
 
 
 //--------------------------------------------------
@@ -102,6 +117,13 @@ enum ErrorCode : uint8_t {
     INVALID_SQUARE,
     INVALID_PIECE_TYPE,
     GAME_ALREADY_STARTED,
+    NULL_CLIENT_PTR,
+};
+
+// Game modes: Offline/Online
+enum class GameMode : uint8_t {
+    OFFLINE,
+    ONLINE
 };
 
 
@@ -194,6 +216,7 @@ using SquareId = uint8_t;
 using Move = std::pair<Square, Square>;
 using SquareSet = std::unordered_set<Square, SquareHash>;
 
+constexpr Move NULL_MOVE { NULL_SQUARE, NULL_SQUARE };
 
 //--------------------------------------------------
 // Maps

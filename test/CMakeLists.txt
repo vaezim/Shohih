@@ -26,8 +26,6 @@ target_link_libraries(
     raylib
 )
 
-# Executables for test_server and test_client
-add_executable(test_server ./network/test_server.cpp)
+# Executable for test_client
 add_executable(test_client ./network/test_client.cpp)
-target_link_libraries(test_server ${SHOHIH_LIB})
 target_link_libraries(test_client ${SHOHIH_LIB} gtest)

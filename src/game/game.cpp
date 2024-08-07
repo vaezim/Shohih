@@ -9,6 +9,30 @@
 namespace Shohih {
 
 /**************************************************
+ * @details
+ *      Game constructor. If game @param mode is online,
+ *          a client object is made to get opponent's
+ *          moves from the server in address @param addr
+ **************************************************/
+Game::Game(GameMode mode, std::string addr) : m_gameMode(mode)
+{
+    if (m_gameMode == GameMode::ONLINE) {
+        m_client = std::make_shared<Client>(addr);
+    }
+}
+
+/**************************************************
+ * @details
+ *      Game destructor. Exits the server (Online mode)
+ **************************************************/
+Game::~Game()
+{
+    if (m_client != nullptr) {
+        m_client->Exit();
+    }
+}
+
+/**************************************************
  * Initialize Game's global isRunning variable.
  * This variable is shared among all Game classes
  * to prevent multiple games from starting simultaneously.
@@ -30,7 +54,7 @@ ErrorCode Game::Play()
     }
 
     // Standard chess starting position
-    ErrorCode err = Board::BuildBoardByFEN(m_board, STANDARD_POSITION_FEN);
+    ErrorCode err = Board::BuildBoardByFEN(m_board, STANDARD_POSITION_FEN, m_gameMode, m_client);
     if (UNLIKELY(err != SUCCESS || m_board == nullptr)) {
         return err;
     }

@@ -20,23 +20,35 @@ public:
     //--------------------------------------------------
     // Main server API
     //--------------------------------------------------
-    void Listen() { listen("0.0.0.0", 8080); }
+    void Listen();
 
 private:
     //--------------------------------------------------
+    // Manage clients
+    //--------------------------------------------------
+    void RemoveClient(const httplib::Request &req);
+    void RegisterClient(const httplib::Request &req, httplib::Response &);
+
+    //--------------------------------------------------
     // Send the last move to clients
     //--------------------------------------------------
-    void SendMove(const httplib::Request &, httplib::Response &);
+    void SendMove(httplib::Response &);
 
     //--------------------------------------------------
     // Receive a move from clients
     //--------------------------------------------------
-    void ReceiveMove(const httplib::Request &, httplib::Response &);
+    void ReceiveMove(const httplib::Request &);
 
     //--------------------------------------------------
     // Last received move by the server
     //--------------------------------------------------
-    Move m_lastMove{ NULL_SQUARE, NULL_SQUARE };
+    Move m_lastMove = NULL_MOVE;
+
+    //--------------------------------------------------
+    // Number of connected clients (max = 2)
+    // First client gets white, Second client get black
+    //--------------------------------------------------
+    uint8_t m_numConnectedClients{ 0 };
 };
 
 } // namespace Shohih

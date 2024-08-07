@@ -14,17 +14,17 @@ SquareSet Pawn::GetAvailableMoves() const
         return {};
     }
 
-    // Pawns cannot be on 1st and 8th rank
-    if (UNLIKELY(m_square.y == 0 || m_square.y == 7)) {
-        ERROR_LOG("Pawns cannot be on Rank 1 & 8");
-        return {};
-    }
-
     // Output
     SquareSet moves{};
 
     // Check player turn (turned off in test mode)
     if (UNLIKELY(m_board->GetPlayerTurn() != m_color && !TEST_MODE)) {
+        return moves;
+    }
+
+    // Pawns cannot be on 1st and 8th rank
+    if (UNLIKELY(m_square.y == 0 || m_square.y == 7)) {
+        ERROR_LOG("Pawns cannot be on Rank 1 & 8");
         return moves;
     }
 

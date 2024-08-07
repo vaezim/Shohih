@@ -7,6 +7,7 @@ option(BUILD_TEST "Turn ON/OFF building test files" OFF)
 # Shohih lib & executable
 set(SHOHIH_LIB shohih)
 set(SHOHIH_MAIN shohih_main)
+set(SHOHIH_SERVER shohih_server)
 
 # Executables at ./output/exe
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output/exe)

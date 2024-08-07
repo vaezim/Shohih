@@ -66,6 +66,12 @@ GuiManager::GuiManager(std::shared_ptr<Board> board) : m_board(board)
  **************************************************/
 void GuiManager::Run()
 {
+    // Client/Server communication handler
+    std::shared_ptr<std::thread> serverHandler;
+    if (m_board->GetGameMode() == GameMode::ONLINE) {
+        serverHandler = std::make_shared<std::thread>(&GuiManager::SyncWithServer, this);
+    }
+
     // Window drawing loop. Exit loop with
     // ESC key | Closing window | Ctrl+C
     while (!WindowShouldClose()) {
@@ -90,6 +96,7 @@ void GuiManager::Run()
     }
 
     CloseWindow();
+    serverHandler->join();
 }
 
 /**************************************************
@@ -129,9 +136,42 @@ void GuiManager::HandleMouseClicks()
     if (m_board->IsEmptySquare(sq)) { return; }
     auto piece = m_board->GetPieceBySquare(sq);
 
+    // Do not draw opponent's available squares (Online mode only)
+    if (m_board->GetGameMode() == GameMode::ONLINE &&
+        piece->GetPieceColor() != m_board->GetClientPieceColor()) { return; }
+
     // Mark available moves of <piece>
     for (const Square &avail_sq : piece->GetAvailableMoves()) {
         m_markedSquares.emplace(avail_sq);
+    }
+}
+
+/**************************************************
+ * @details
+ *      Constantly checks the server for new moves
+ *          and sends clients moves to the server.
+ **************************************************/
+void GuiManager::SyncWithServer() const
+{
+    auto client = m_board->GetClient();
+    if (UNLIKELY(client == nullptr)) {
+        ERROR_LOG("Failed to sync with server. Client is nullptr.");
+        return;
+    }
+    while (!WindowShouldClose()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(threadSleepTime));
+        // Send player's move to server
+        // (we have made our move and its now opponent's turn)
+        if (m_board->GetClientPieceColor() != m_board->GetPlayerTurn()) {
+            client->SendMove(m_board->GetLastMove());
+        }
+        // Get opponent's move from server
+        Move opponentMove = client->GetMove();
+        // Update board
+        if (LIKELY(opponentMove != NULL_MOVE) &&
+            opponentMove != m_board->GetLastMove()) {
+            m_board->MovePiece(opponentMove);
+        }
     }
 }
 

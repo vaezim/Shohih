@@ -39,6 +39,11 @@ private:
     void DrawMarkedSquareCircles() const;
 
     //--------------------------------------------------
+    // Online mode
+    //--------------------------------------------------
+    void SyncWithServer() const;
+
+    //--------------------------------------------------
     // Pointer to Shohih board handler
     //--------------------------------------------------
     std::shared_ptr<Board> m_board{ nullptr };

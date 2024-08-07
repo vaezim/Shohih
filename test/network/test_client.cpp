@@ -17,6 +17,9 @@ int main(int argc, char **argv)
 TEST(TestShohihClient, GetAndPostRequests)
 {
     Client client("localhost:8080");
+    Client client2("localhost:8080");
+    EXPECT_EQ(client.GetPlayerColor(), PieceColor::WHITE);
+    EXPECT_EQ(client2.GetPlayerColor(), PieceColor::BLACK);
 
     // Server should return NULL move at first
     Move move = client.GetMove();

@@ -51,5 +51,7 @@ cd ./output/exe
   - [X] Update piece texture position with piece objects
   - [ ] King square turning red if in check
   - [ ] If a piece can be taken, change square corner shapes instead of a circle
+  - [ ] Add menu to select Online/Offline mode and enter server address
 - [ ] Update demo video after fixing bugs
-- [ ] Implement online mode
+- [X] Implement online mode
+  - [X] Add /exit http request
