@@ -1,6 +1,6 @@
 # Shohih
 
-A multiplayer graphical chess game written in C++ with support for both Offline and Online modes.
+An online multiplayer chess game with GUI written in C++ with support for both Offline and Online modes.
 
 ## How to build
 
