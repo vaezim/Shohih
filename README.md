@@ -4,10 +4,14 @@ An online multiplayer chess game with GUI written in C++ with support for both O
 
 ## How to build
 
-Clone the repository and third-party libraries.
+Install the dependencies for GLFW:
 ```sh
-git clone --recurse-submodules https://github.com/vaezim/Shohih.git
-cd Shohih/
+sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+```
+
+Clone the repository and third-party libraries:
+```sh
+git clone --recurse-submodules https://github.com/vaezim/Shohih.git && cd Shohih/
 ```
 
 ### Build the main program only (excluding tests)
