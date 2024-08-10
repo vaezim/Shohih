@@ -35,7 +35,20 @@ cd ./output/exe
 ./build.sh --debug
 ```
 
-## Playing in Online mode
+## Playing in Online/Offline modes
+Shohih supports both offline and online game modes. To see the usage guide execute `./shohih_main`
+```
+Usage: ./shohih_main [OPTIONS]
+Options:
+-m, --mode	Select game mode (online|offline)
+-u, --host	Set server address in online mode
+Example: ./shohih_main --mode offline
+Example: ./shohih_main -m online --host 10.12.24.36
+NOTE: Server address can be ip address or url
+NOTE: Server is listening on port 8080
+```
+
+### Online mode
 - On the computer hosting the server:
 ```sh
 cd ./output/exe
@@ -44,7 +57,13 @@ cd ./output/exe
 - Players' computer (can be the same as the server's computer):
 ```sh
 cd ./output/exe
-./shohih_main
+./shohih_main --mode online --host <server_address>
+./shohih_main --mode online --host localhost  # If client and server are on the same computer
+```
+### Offline mode
+```sh
+cd ./output/exe
+./shohih_main --mode offline
 ```
 
 ## Demo videos
