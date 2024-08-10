@@ -55,7 +55,7 @@ void Server::Listen()
 void Server::RegisterClient(const httplib::Request &req, httplib::Response &resp)
 {
     if (UNLIKELY(m_numConnectedClients >= 2)) {
-        ERROR_LOG("Server cannot serve more than 2 clients.");
+        ERROR_LOG("Server cannot serve more than 2 clients");
         resp.body = "fail";
         return;
     }
@@ -76,7 +76,7 @@ void Server::RemoveClient(const httplib::Request &req)
     }
     m_lastMove = NULL_MOVE;
     RED_INFO_LOG("Client with address "
-        << req.remote_addr << " left Shohih server.");
+        << req.remote_addr << " left Shohih server");
 }
 
 /**************************************************

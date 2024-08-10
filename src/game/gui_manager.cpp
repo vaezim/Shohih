@@ -96,7 +96,9 @@ void GuiManager::Run()
     }
 
     CloseWindow();
-    serverHandler->join();
+    if (serverHandler != nullptr) {
+        serverHandler->join();
+    }
 }
 
 /**************************************************

@@ -9,6 +9,9 @@ using namespace Shohih;
 
 int main()
 {
+    //--------------------------------------------------
+    // Server listens on 0.0.0.0:8080
+    //--------------------------------------------------
     Server server;
     server.Listen();
 }
