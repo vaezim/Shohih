@@ -68,6 +68,10 @@ cd ./output/exe
 
 ## Demo videos
 
+### Online mode
+
+https://github.com/user-attachments/assets/b1b7e551-6c5a-47f7-91e5-f4ccf121d29c
+
 ### Offline mode
 
 https://github.com/user-attachments/assets/62ad3c25-f878-4192-b87b-db71052376bc
