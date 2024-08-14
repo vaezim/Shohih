@@ -104,3 +104,4 @@ https://github.com/user-attachments/assets/62ad3c25-f878-4192-b87b-db71052376bc
 - [ ] Update demo video after fixing bugs
 - [X] Implement online mode
   - [X] Add /exit http request
+  - [ ] Improve connection speed (replace Http with Websocket?)
